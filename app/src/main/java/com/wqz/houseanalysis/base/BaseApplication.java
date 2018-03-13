@@ -4,10 +4,12 @@ import android.app.Application;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
-import com.esri.android.runtime.ArcGISRuntime;
+import com.amap.api.maps.model.CameraPosition;
 import com.tencent.bugly.Bugly;
+import com.wqz.houseanalysis.bean.AddressBean;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -20,6 +22,8 @@ public class BaseApplication extends Application
 {
     public static BaseApplication instances;
     private AMapLocationClient mLocationClient;
+    private CameraPosition currentCamera;
+    private List<AddressBean> addressBeanList;
 
     @Override
     public void onCreate()
@@ -28,11 +32,10 @@ public class BaseApplication extends Application
         Bugly.init(getApplicationContext(), "85d9505fbb", true);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
-                .readTimeout(10000L, TimeUnit.MILLISECONDS)
+                .readTimeout(180000L, TimeUnit.MILLISECONDS)
                 .build();
         OkHttpUtils.initClient(okHttpClient);
         instances = this;
-        ArcGISRuntime.setClientId("o4AGICRmrKDsNHRY");
         initLoc();
     }
 
@@ -54,5 +57,25 @@ public class BaseApplication extends Application
     public AMapLocationClient getLocClient()
     {
         return mLocationClient;
+    }
+
+    public List<AddressBean> getAddressBeanList()
+    {
+        return addressBeanList;
+    }
+
+    public void setAddressBeanList(List<AddressBean> addressBeanList)
+    {
+        this.addressBeanList = addressBeanList;
+    }
+
+    public CameraPosition getCurrentCamera()
+    {
+        return currentCamera;
+    }
+
+    public void setCurrentCamera(CameraPosition currentCamera)
+    {
+        this.currentCamera = currentCamera;
     }
 }

@@ -1,6 +1,6 @@
 package com.wqz.houseanalysis.utils;
 
-import com.esri.core.geometry.Point;
+import com.amap.api.maps.model.LatLng;
 import com.wqz.houseanalysis.bean.LatLngInfo;
 
 public class CoordinateUtils
@@ -202,12 +202,12 @@ public class CoordinateUtils
                 && (latitude != 0.0D) && (longitude != 0.0D);
     }
 
-    public static Point lonLat2Point(LatLngInfo info)
+    public static LatLng lonLat2Point(LatLngInfo info)
     {
-        return new Point(info.longitude, info.latitude);
+        return new LatLng (info.latitude, info.longitude);
     }
 
-    public static Point lonLatToMercatorPoint(double lon, double lat)
+    public static LatLng lonLatToMercatorPoint(double lon, double lat)
     {
         double toX = lon * 20037508.34D / 180.0D;
         double toY = Math.log(Math
@@ -217,12 +217,12 @@ public class CoordinateUtils
         return lonLat2Point(new LatLngInfo(toY, toX));
     }
 
-    public static Point gcj02ToMorcatorPoint(double lon, double lat)
+    public static LatLng gcj02ToMorcatorPoint(double lon, double lat)
     {
         return lonLat2Point(gcjToMercator(lon,lat));
     }
 
-    public static Point wgs84ToGcj02ToMorcatorPoint(double lon, double lat)
+    public static LatLng wgs84ToGcj02ToMorcatorPoint(double lon, double lat)
     {
         LatLngInfo pos = gps84_To_Gcj02(lat, lon);
         return lonLat2Point(lonLatToMercator(pos.longitude,pos.latitude));

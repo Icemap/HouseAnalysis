@@ -3,5 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorMesh">#333333</color>
+    <color name="colorMesh">#66000000</color>
+    <color name="colorWhite">#EEEEEE</color>
+    <color name="colorMainTabBlue">#03a0e2</color>
+    <color name="colorTrans">#00000000</color>
+    <color name="colorOrange">#FFCA57</color>
+    <color name="colorToolsBg">#b3000000</color>
+    <color name="colorMainTabBlueTrans">#8803a0e2</color>
 </resources>

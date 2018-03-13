@@ -17,11 +17,12 @@ abstract public class BaseActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(initLayoutId());
         ButterKnife.bind(this);
-        onInitLogic();
+        onInitLogic(savedInstanceState);
     }
 
     protected abstract int initLayoutId();
-    protected void onInitLogic() {}
+    protected void onInitLogic(Bundle savedInstanceState) {}
+
 
     public BaseApplication getBaseApplication()
     {
