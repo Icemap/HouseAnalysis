@@ -37,4 +37,30 @@ public class SnackUtils
                 })
                 .show();
     }
+
+    public static void makeSnackBar(View rootView, String text, int duration,
+                                    final View getOutView, View.OnClickListener listener, String actionName)
+    {
+        Snackbar
+                .make(rootView, text, duration)
+                .setAction(actionName, listener)
+                .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>()
+                {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event)
+                    {
+                        super.onDismissed(transientBottomBar, event);
+
+                        getOutView.setY(getOutView.getY() + transientBottomBar.getView().getHeight());
+                    }
+
+                    @Override
+                    public void onShown(Snackbar transientBottomBar)
+                    {
+                        super.onShown(transientBottomBar);
+                        getOutView.setY(getOutView.getY() - transientBottomBar.getView().getHeight());
+                    }
+                })
+                .show();
+    }
 }

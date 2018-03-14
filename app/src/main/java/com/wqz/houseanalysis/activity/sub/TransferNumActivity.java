@@ -17,11 +17,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.activity.MainActivity;
+import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
-import com.wqz.houseanalysis.base.BaseImmersiveActivity;
 import com.wqz.houseanalysis.bean.AddressBean;
 import com.wqz.houseanalysis.dialog.DownloadDialog;
 import com.wqz.houseanalysis.dialog.GetTimeDialog;
+import com.wqz.houseanalysis.dialog.GetTransferNumDialog;
 import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -32,23 +33,23 @@ import butterknife.BindDrawable;
 import butterknife.BindView;
 import okhttp3.Call;
 
-public class BusTimeActivity extends BaseImmersiveActivity
+public class TransferNumActivity extends BaseActivity
 {
     AMap aMap;
     Marker marker;
     private LatLng startPoint;
-    private int time;
+    int transferNum;
     DownloadDialog downloadDialog;
 
-    @BindView(R.id.bus_time_map)
+    @BindView(R.id.transfer_num_map)
     MapView mapView;
-    @BindView(R.id.tv_hint)
+    @BindView(R.id.tv_transfer_num_hint)
     TextView tvHint;
 
     @Override
     protected int initLayoutId()
     {
-        return R.layout.activity_bus_time;
+        return R.layout.activity_transfer_num;
     }
 
     @Override
@@ -57,7 +58,7 @@ public class BusTimeActivity extends BaseImmersiveActivity
         super.onInitLogic(savedInstanceState);
         onMapInit(savedInstanceState);
 
-        downloadDialog = new DownloadDialog(BusTimeActivity.this);
+        downloadDialog = new DownloadDialog(TransferNumActivity.this);
     }
 
     private void onMapInit(Bundle savedInstanceState)
@@ -78,21 +79,21 @@ public class BusTimeActivity extends BaseImmersiveActivity
             @Override
             public void onMapClick(LatLng latLng)
             {
-                GetTimeDialog getTimeDialog = new GetTimeDialog(BusTimeActivity.this);
-                getTimeDialog.show();
-                getTimeDialog.setStatusListener(statusListener);
+                GetTransferNumDialog getTransferDialog = new GetTransferNumDialog(TransferNumActivity.this);
+                getTransferDialog.show();
+                getTransferDialog.setStatusListener(statusListener);
 
                 if(marker != null) marker.destroy();
                 marker = aMap.addMarker(new MarkerOptions().position(latLng).icon(
                         BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                        .decodeResource(getResources(),R.mipmap.self_loc))));
+                                .decodeResource(getResources(),R.mipmap.self_loc))));
                 startPoint = latLng;
                 tvHint.setText("选择完毕");
             }
         });
     }
 
-    GetTimeDialog.StatusListener statusListener = new GetTimeDialog.StatusListener()
+    GetTransferNumDialog.StatusListener statusListener = new GetTransferNumDialog.StatusListener()
     {
         @Override
         public void onDimiss()
@@ -101,9 +102,9 @@ public class BusTimeActivity extends BaseImmersiveActivity
         }
 
         @Override
-        public void onConfirm(Integer mins)
+        public void onConfirm(Integer transferNum)
         {
-            time = mins;
+            TransferNumActivity.this.transferNum = transferNum;
             loadData();
         }
     };
@@ -114,8 +115,8 @@ public class BusTimeActivity extends BaseImmersiveActivity
 
         OkHttpUtils
                 .get()
-                .url(UrlUtils.BUS_TIME_URL)
-                .addParams("mins", time + "")
+                .url(UrlUtils.BUS_TRANSFER_URL)
+                .addParams("transferNum", transferNum + "")
                 .addParams("originLon", startPoint.longitude + "")
                 .addParams("originLat", startPoint.latitude + "")
                 .build()
@@ -135,9 +136,9 @@ public class BusTimeActivity extends BaseImmersiveActivity
                                 new TypeToken<List<AddressBean>>(){}.getType());
                         BaseApplication.getInstances().setAddressBeanList(addressBeans);
 
-                        startActivity(new Intent(BusTimeActivity.this, MainActivity.class));
+                        startActivity(new Intent(TransferNumActivity.this, MainActivity.class));
                         downloadDialog.dismiss();
-                        BusTimeActivity.this.finish();
+                        TransferNumActivity.this.finish();
                     }
                 });
     }

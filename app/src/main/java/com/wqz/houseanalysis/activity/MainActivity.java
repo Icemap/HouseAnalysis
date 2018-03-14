@@ -8,21 +8,20 @@ import android.support.design.widget.CoordinatorLayout;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.wqz.houseanalysis.R;
-import com.wqz.houseanalysis.activity.map.cluster.Cluster;
-import com.wqz.houseanalysis.activity.map.cluster.ClusterItem;
-import com.wqz.houseanalysis.activity.map.cluster.ClusterOverlay;
+import com.wqz.houseanalysis.activity.sub.LengthActivity;
+import com.wqz.houseanalysis.activity.sub.TimeAndTransferActivity;
+import com.wqz.houseanalysis.activity.sub.TransferNumActivity;
+import com.wqz.houseanalysis.map.cluster.ClusterOverlay;
 import com.wqz.houseanalysis.activity.sub.BusTimeActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.base.BaseImmersiveActivity;
 import com.wqz.houseanalysis.bean.AddressBean;
 import com.wqz.houseanalysis.utils.ScreenUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindDrawable;
@@ -67,6 +66,7 @@ public class MainActivity extends BaseImmersiveActivity
 
         if (aMap == null)
             aMap = mapView.getMap();
+        aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
 
         checkAddressExist();
 
@@ -79,14 +79,6 @@ public class MainActivity extends BaseImmersiveActivity
         aMap.setMyLocationEnabled(true);
         aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         aMap.getUiSettings().setZoomControlsEnabled(false);
-    }
-
-    @OnClick(R.id.fab_time)
-    public void onBusTimeClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, BusTimeActivity.class));
-        finish();
     }
 
     public void checkAddressExist()
@@ -126,5 +118,39 @@ public class MainActivity extends BaseImmersiveActivity
     {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+
+    @OnClick(R.id.fab_time)
+    public void onBusTimeClicked()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, BusTimeActivity.class));
+        finish();
+    }
+
+
+    @OnClick(R.id.fab_transfer)
+    public void onBusTransferNumClicked()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, TransferNumActivity.class));
+        finish();
+    }
+
+    @OnClick(R.id.fab_bus)
+    public void onBusTimeAndTransferNumClicked()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, TimeAndTransferActivity.class));
+        finish();
+    }
+
+    @OnClick(R.id.fab_length)
+    public void onLengthClicked()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, LengthActivity.class));
+        finish();
     }
 }

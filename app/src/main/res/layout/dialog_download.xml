@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/hints_bg">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorWhite"
+        android:layout_centerHorizontal="true"
+        android:text="愤怒的小水管服务器正在计算"/>
+
+    <TextView
+        android:id="@+id/tv_download_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/tv_title"
+        android:textColor="@color/colorWhite"
+        android:layout_centerHorizontal="true"
+        android:text=""/>
+</RelativeLayout>

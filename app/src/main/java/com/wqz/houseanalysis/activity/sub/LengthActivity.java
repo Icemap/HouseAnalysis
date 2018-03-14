@@ -2,14 +2,20 @@ package com.wqz.houseanalysis.activity.sub;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.Circle;
+import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
@@ -17,38 +23,44 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.activity.MainActivity;
+import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
-import com.wqz.houseanalysis.base.BaseImmersiveActivity;
 import com.wqz.houseanalysis.bean.AddressBean;
 import com.wqz.houseanalysis.dialog.DownloadDialog;
 import com.wqz.houseanalysis.dialog.GetTimeDialog;
+import com.wqz.houseanalysis.dialog.GetTransferNumDialog;
+import com.wqz.houseanalysis.dialog.LengthDialog;
+import com.wqz.houseanalysis.utils.SnackUtils;
 import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
-import butterknife.BindDrawable;
+import butterknife.BindColor;
 import butterknife.BindView;
 import okhttp3.Call;
 
-public class BusTimeActivity extends BaseImmersiveActivity
+public class LengthActivity extends BaseActivity
 {
     AMap aMap;
     Marker marker;
     private LatLng startPoint;
-    private int time;
+    private int length;
     DownloadDialog downloadDialog;
+    Circle circle;
 
-    @BindView(R.id.bus_time_map)
+    @BindView(R.id.length_map)
     MapView mapView;
-    @BindView(R.id.tv_hint)
+    @BindView(R.id.tv_length_hint)
     TextView tvHint;
+    @BindView(R.id.rl_length_root)
+    RelativeLayout rlRoot;
 
     @Override
     protected int initLayoutId()
     {
-        return R.layout.activity_bus_time;
+        return R.layout.activity_length;
     }
 
     @Override
@@ -57,7 +69,7 @@ public class BusTimeActivity extends BaseImmersiveActivity
         super.onInitLogic(savedInstanceState);
         onMapInit(savedInstanceState);
 
-        downloadDialog = new DownloadDialog(BusTimeActivity.this);
+        downloadDialog = new DownloadDialog(LengthActivity.this);
     }
 
     private void onMapInit(Bundle savedInstanceState)
@@ -78,21 +90,21 @@ public class BusTimeActivity extends BaseImmersiveActivity
             @Override
             public void onMapClick(LatLng latLng)
             {
-                GetTimeDialog getTimeDialog = new GetTimeDialog(BusTimeActivity.this);
-                getTimeDialog.show();
-                getTimeDialog.setStatusListener(statusListener);
+                LengthDialog lengthDialog = new LengthDialog(LengthActivity.this);
+                lengthDialog.show();
+                lengthDialog.setStatusListener(statusListener);
 
                 if(marker != null) marker.destroy();
                 marker = aMap.addMarker(new MarkerOptions().position(latLng).icon(
                         BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                        .decodeResource(getResources(),R.mipmap.self_loc))));
+                                .decodeResource(getResources(),R.mipmap.self_loc))));
                 startPoint = latLng;
                 tvHint.setText("选择完毕");
             }
         });
     }
 
-    GetTimeDialog.StatusListener statusListener = new GetTimeDialog.StatusListener()
+    LengthDialog.StatusListener statusListener = new LengthDialog.StatusListener()
     {
         @Override
         public void onDimiss()
@@ -101,10 +113,23 @@ public class BusTimeActivity extends BaseImmersiveActivity
         }
 
         @Override
-        public void onConfirm(Integer mins)
+        public void onConfirm(Integer length)
         {
-            time = mins;
-            loadData();
+            LengthActivity.this.length = length;
+            circle = aMap.addCircle(new CircleOptions().
+                    center(startPoint).
+                    radius(length * 1000).
+                    fillColor(Color.parseColor("#8803a0e2")).
+                    strokeColor(Color.parseColor("#03a0e2")).
+                    strokeWidth(5));
+
+            SnackUtils.makeSnackBar(rlRoot, "确定是这个圆内吗？", Snackbar.LENGTH_INDEFINITE, tvHint, new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    loadData();
+                }
+            }, "确认");
         }
     };
 
@@ -114,8 +139,8 @@ public class BusTimeActivity extends BaseImmersiveActivity
 
         OkHttpUtils
                 .get()
-                .url(UrlUtils.BUS_TIME_URL)
-                .addParams("mins", time + "")
+                .url(UrlUtils.LENGTH_URL)
+                .addParams("length", length * 1000 + "")
                 .addParams("originLon", startPoint.longitude + "")
                 .addParams("originLat", startPoint.latitude + "")
                 .build()
@@ -135,9 +160,9 @@ public class BusTimeActivity extends BaseImmersiveActivity
                                 new TypeToken<List<AddressBean>>(){}.getType());
                         BaseApplication.getInstances().setAddressBeanList(addressBeans);
 
-                        startActivity(new Intent(BusTimeActivity.this, MainActivity.class));
+                        startActivity(new Intent(LengthActivity.this, MainActivity.class));
                         downloadDialog.dismiss();
-                        BusTimeActivity.this.finish();
+                        LengthActivity.this.finish();
                     }
                 });
     }

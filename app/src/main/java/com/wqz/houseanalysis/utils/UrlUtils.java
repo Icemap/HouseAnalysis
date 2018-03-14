@@ -10,5 +10,7 @@ public class UrlUtils
 
     public static String BUS_TIME_URL = BASE_URL + "/analysis/limit/busTime";
     public static String BUS_TRANSFER_URL = BASE_URL + "/analysis/limit/transfer";
+    public static String BUS_TIME_AND_TRANSFER_URL = BASE_URL + "/analysis/limit/transferAndBusTime";
+    public static String LENGTH_URL = BASE_URL + "/analysis/limit/length";
 
 }

@@ -1,7 +1,7 @@
 package com.wqz.houseanalysis.bean;
 
 import com.amap.api.maps.model.LatLng;
-import com.wqz.houseanalysis.activity.map.cluster.ClusterItem;
+import com.wqz.houseanalysis.map.cluster.ClusterItem;
 
 /**
  * Created by 51667 on 2018/3/13.

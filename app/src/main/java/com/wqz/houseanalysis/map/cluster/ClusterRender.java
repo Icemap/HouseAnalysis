@@ -1,4 +1,4 @@
-package com.wqz.houseanalysis.activity.map.cluster;
+package com.wqz.houseanalysis.map.cluster;
 
 import android.graphics.drawable.Drawable;
 

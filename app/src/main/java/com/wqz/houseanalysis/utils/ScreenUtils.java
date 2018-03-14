@@ -231,9 +231,10 @@ public class ScreenUtils
         return (int) (dpValue * scale + 0.5f);
     }
 
-    public static int px2dp(Context context, float pxValue)
+    public static int pxToDp(Context context, int px)
     {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) ((pxValue - 0.5f ) / scale );
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return dp;
     }
 }
