@@ -46,13 +46,19 @@
 
         <service android:name="com.amap.api.location.APSService"/>
 
-        <activity android:name=".activity.ListActivity"/>
+        <activity android:name=".activity.ListStatusActivity"/>
         <activity android:name=".activity.sub.BusTimeActivity"/>
         <activity android:name=".activity.sub.TransferNumActivity">
         </activity>
         <activity android:name=".activity.sub.TimeAndTransferActivity">
         </activity>
         <activity android:name=".activity.sub.LengthActivity">
+        </activity>
+        <activity android:name=".activity.sub.FreeDrawActivity">
+        </activity>
+        <activity android:name=".activity.sub.RectActivity">
+        </activity>
+        <activity android:name=".activity.ListAddressActivity">
         </activity>
     </application>
 

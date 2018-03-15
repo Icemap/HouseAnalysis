@@ -29,7 +29,7 @@
             android:id="@+id/tv_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/met_transfer_num"
+            android:layout_below="@+id/met_length"
             android:layout_margin="10dp"
             android:padding="10dp"
             android:text="填个整数"

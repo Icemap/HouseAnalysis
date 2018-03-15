@@ -19,13 +19,18 @@ import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.activity.MainActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.base.BaseImmersiveActivity;
+import com.wqz.houseanalysis.bean.AddressActiveStatus;
 import com.wqz.houseanalysis.bean.AddressBean;
 import com.wqz.houseanalysis.dialog.DownloadDialog;
 import com.wqz.houseanalysis.dialog.GetTimeDialog;
+import com.wqz.houseanalysis.utils.FileUtils;
+import com.wqz.houseanalysis.utils.ListUtils;
+import com.wqz.houseanalysis.utils.StatusUtils;
 import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindDrawable;
@@ -133,7 +138,17 @@ public class BusTimeActivity extends BaseImmersiveActivity
                     {
                         List<AddressBean> addressBeans = new Gson().fromJson(response,
                                 new TypeToken<List<AddressBean>>(){}.getType());
-                        BaseApplication.getInstances().setAddressBeanList(addressBeans);
+                        AddressActiveStatus addressActiveStatus = new AddressActiveStatus();
+                        addressActiveStatus.addressList = addressBeans;
+                        addressActiveStatus.active = true;
+                        addressActiveStatus.analysisDate = new Date();
+                        addressActiveStatus.title = "公交时间限制";
+                        addressActiveStatus.param = time + "分钟";
+
+                        List<AddressActiveStatus> statusList = StatusUtils.getStatusList();
+                        ListUtils.setAllNodeStatusUnactive(statusList);
+                        statusList.add(addressActiveStatus);
+                        StatusUtils.setStatusList(statusList);
 
                         startActivity(new Intent(BusTimeActivity.this, MainActivity.class));
                         downloadDialog.dismiss();

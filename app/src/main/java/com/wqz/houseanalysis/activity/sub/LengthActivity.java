@@ -25,23 +25,29 @@ import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.activity.MainActivity;
 import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
+import com.wqz.houseanalysis.base.BaseImmersiveActivity;
+import com.wqz.houseanalysis.bean.AddressActiveStatus;
 import com.wqz.houseanalysis.bean.AddressBean;
 import com.wqz.houseanalysis.dialog.DownloadDialog;
 import com.wqz.houseanalysis.dialog.GetTimeDialog;
 import com.wqz.houseanalysis.dialog.GetTransferNumDialog;
 import com.wqz.houseanalysis.dialog.LengthDialog;
+import com.wqz.houseanalysis.utils.FileUtils;
+import com.wqz.houseanalysis.utils.ListUtils;
 import com.wqz.houseanalysis.utils.SnackUtils;
+import com.wqz.houseanalysis.utils.StatusUtils;
 import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindView;
 import okhttp3.Call;
 
-public class LengthActivity extends BaseActivity
+public class LengthActivity extends BaseImmersiveActivity
 {
     AMap aMap;
     Marker marker;
@@ -115,6 +121,8 @@ public class LengthActivity extends BaseActivity
         @Override
         public void onConfirm(Integer length)
         {
+            aMap.clear();
+
             LengthActivity.this.length = length;
             circle = aMap.addCircle(new CircleOptions().
                     center(startPoint).
@@ -158,7 +166,17 @@ public class LengthActivity extends BaseActivity
                     {
                         List<AddressBean> addressBeans = new Gson().fromJson(response,
                                 new TypeToken<List<AddressBean>>(){}.getType());
-                        BaseApplication.getInstances().setAddressBeanList(addressBeans);
+                        AddressActiveStatus addressActiveStatus = new AddressActiveStatus();
+                        addressActiveStatus.addressList = addressBeans;
+                        addressActiveStatus.active = true;
+                        addressActiveStatus.analysisDate = new Date();
+                        addressActiveStatus.title = "直线距离限制";
+                        addressActiveStatus.param = length + "千米";
+
+                        List<AddressActiveStatus> statusList = StatusUtils.getStatusList();
+                        ListUtils.setAllNodeStatusUnactive(statusList);
+                        statusList.add(addressActiveStatus);
+                        StatusUtils.setStatusList(statusList);
 
                         startActivity(new Intent(LengthActivity.this, MainActivity.class));
                         downloadDialog.dismiss();

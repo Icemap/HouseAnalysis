@@ -6,9 +6,11 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.maps.model.CameraPosition;
 import com.tencent.bugly.Bugly;
+import com.wqz.houseanalysis.bean.AddressActiveStatus;
 import com.wqz.houseanalysis.bean.AddressBean;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +25,6 @@ public class BaseApplication extends Application
     public static BaseApplication instances;
     private AMapLocationClient mLocationClient;
     private CameraPosition currentCamera;
-    private List<AddressBean> addressBeanList;
 
     @Override
     public void onCreate()
@@ -57,16 +58,6 @@ public class BaseApplication extends Application
     public AMapLocationClient getLocClient()
     {
         return mLocationClient;
-    }
-
-    public List<AddressBean> getAddressBeanList()
-    {
-        return addressBeanList;
-    }
-
-    public void setAddressBeanList(List<AddressBean> addressBeanList)
-    {
-        this.addressBeanList = addressBeanList;
     }
 
     public CameraPosition getCurrentCamera()

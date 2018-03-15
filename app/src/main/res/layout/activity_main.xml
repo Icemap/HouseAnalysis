@@ -81,6 +81,24 @@
             fab:fab_size="mini"
             fab:fab_icon="@drawable/ic_rect_24dp"
             fab:fab_title="矩形绘制限制"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_address_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorMainTabBlue"
+            fab:fab_size="mini"
+            fab:fab_icon="@drawable/ic_list_white_24dp"
+            fab:fab_title="当前小区列表"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorMainTabBlue"
+            fab:fab_size="mini"
+            fab:fab_icon="@drawable/ic_settings_white_24dp"
+            fab:fab_title="分析结果设置"/>
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,7 +1,6 @@
 package com.wqz.houseanalysis.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 
@@ -11,20 +10,31 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
+import com.wqz.houseanalysis.activity.sub.BusTimeActivity;
+import com.wqz.houseanalysis.activity.sub.FreeDrawActivity;
 import com.wqz.houseanalysis.activity.sub.LengthActivity;
+import com.wqz.houseanalysis.activity.sub.RectActivity;
 import com.wqz.houseanalysis.activity.sub.TimeAndTransferActivity;
 import com.wqz.houseanalysis.activity.sub.TransferNumActivity;
-import com.wqz.houseanalysis.map.cluster.ClusterOverlay;
-import com.wqz.houseanalysis.activity.sub.BusTimeActivity;
+import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.base.BaseImmersiveActivity;
+import com.wqz.houseanalysis.bean.AddressActiveStatus;
 import com.wqz.houseanalysis.bean.AddressBean;
+import com.wqz.houseanalysis.map.cluster.ClusterOverlay;
+import com.wqz.houseanalysis.utils.FileUtils;
 import com.wqz.houseanalysis.utils.ScreenUtils;
+import com.wqz.houseanalysis.utils.StatusUtils;
+import com.wqz.houseanalysis.utils.UrlUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -42,11 +52,6 @@ public class MainActivity extends BaseImmersiveActivity
     @BindView(R.id.fab_time)
     FloatingActionButton fabTime;
 
-    @BindDrawable(R.drawable.ic_place_orange_24dp)
-    Drawable selfLoc;
-    @BindDrawable(R.drawable.ic_business_blue_12dp)
-    Drawable addressLoc;
-
     @Override
     protected int initLayoutId()
     {
@@ -59,11 +64,8 @@ public class MainActivity extends BaseImmersiveActivity
         super.onInitLogic(savedInstanceState);
         onMapInit(savedInstanceState);
     }
-
-    private void onMapInit(Bundle savedInstanceState)
+    private void onMapResume()
     {
-        mapView.onCreate(savedInstanceState);
-
         if (aMap == null)
             aMap = mapView.getMap();
         aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
@@ -81,13 +83,26 @@ public class MainActivity extends BaseImmersiveActivity
         aMap.getUiSettings().setZoomControlsEnabled(false);
     }
 
+    private void onMapInit(Bundle savedInstanceState)
+    {
+        mapView.onCreate(savedInstanceState);
+    }
+
     public void checkAddressExist()
     {
-        List<AddressBean> addressBeanList =  BaseApplication.getInstances().getAddressBeanList();
+        List<AddressActiveStatus> addressBeanList = StatusUtils.getStatusList();
         if(addressBeanList == null || addressBeanList.size() == 0)
             return;
 
-        clusterOverlay = new ClusterOverlay(aMap, addressBeanList,
+        List<AddressBean> activeStatus = new ArrayList<>();
+        for(AddressActiveStatus status : addressBeanList)
+        {
+            if(status.active)
+                activeStatus = status.addressList;
+        }
+
+        aMap.clear();
+        clusterOverlay = new ClusterOverlay(aMap, activeStatus,
                 ScreenUtils.dp2px(getApplicationContext(), 50),
                 getApplicationContext());
     }
@@ -104,6 +119,7 @@ public class MainActivity extends BaseImmersiveActivity
     {
         super.onResume();
         mapView.onResume();
+        onMapResume();
     }
 
     @Override
@@ -120,22 +136,18 @@ public class MainActivity extends BaseImmersiveActivity
         mapView.onSaveInstanceState(outState);
     }
 
-
     @OnClick(R.id.fab_time)
     public void onBusTimeClicked()
     {
         BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
         startActivity(new Intent(this, BusTimeActivity.class));
-        finish();
     }
-
 
     @OnClick(R.id.fab_transfer)
     public void onBusTransferNumClicked()
     {
         BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
         startActivity(new Intent(this, TransferNumActivity.class));
-        finish();
     }
 
     @OnClick(R.id.fab_bus)
@@ -143,7 +155,6 @@ public class MainActivity extends BaseImmersiveActivity
     {
         BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
         startActivity(new Intent(this, TimeAndTransferActivity.class));
-        finish();
     }
 
     @OnClick(R.id.fab_length)
@@ -151,6 +162,33 @@ public class MainActivity extends BaseImmersiveActivity
     {
         BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
         startActivity(new Intent(this, LengthActivity.class));
-        finish();
+    }
+
+    @OnClick(R.id.fab_draw)
+    public void onFreeDrawClicked()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, FreeDrawActivity.class));
+    }
+
+    @OnClick(R.id.fab_rect)
+    public void onRectDrawClicked()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, RectActivity.class));
+    }
+
+    @OnClick(R.id.fab_address_list)
+    public void onAddressList()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, ListAddressActivity.class));
+    }
+
+    @OnClick(R.id.fab_setting)
+    public void onSettingClicked()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, ListStatusActivity.class));
     }
 }

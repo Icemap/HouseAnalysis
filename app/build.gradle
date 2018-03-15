@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 

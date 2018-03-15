@@ -2,6 +2,9 @@ package com.wqz.houseanalysis.utils;
 
 import android.os.Environment;
 
+import com.google.gson.Gson;
+import com.wqz.houseanalysis.base.BaseApplication;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -110,14 +113,9 @@ public class FileUtils
 		}
 	}
 
-	public static void createKMLPath()
+	public static void createJsonPath()
 	{
-		FileUtils.createPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com");
-		FileUtils.createPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com/gig");
-		FileUtils.createPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com/gig/myriver");
-		FileUtils.createPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com/gig/myriver/kml");
-		FileUtils.createPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com/gig/myriver/pdf");
-		FileUtils.createPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com/gig/myriver/shoot");
+		FileUtils.createPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com.wqz.house");
 	}
 
 	public static void saveString(String path, String content) throws IOException

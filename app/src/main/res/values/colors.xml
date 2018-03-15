@@ -11,4 +11,7 @@
     <color name="colorToolsBg">#b3000000</color>
     <color name="colorMainTabBlueTrans">#8803a0e2</color>
     <color name="colorCluster">#AA00B468</color>
+    <color name="colorBlack">#111111</color>
+    <color name="colorReportText">#0C4D80</color>
+    <color name="colorIOSRed">#F84E49</color>
 </resources>

@@ -2,8 +2,10 @@ package com.wqz.houseanalysis.activity.sub;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
@@ -13,6 +15,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.PolygonOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
@@ -22,9 +25,9 @@ import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.base.BaseImmersiveActivity;
 import com.wqz.houseanalysis.bean.AddressActiveStatus;
 import com.wqz.houseanalysis.bean.AddressBean;
+import com.wqz.houseanalysis.bean.ToBackEndPointBean;
 import com.wqz.houseanalysis.dialog.DownloadDialog;
 import com.wqz.houseanalysis.dialog.GetTimeDialog;
-import com.wqz.houseanalysis.dialog.GetTransferNumDialog;
 import com.wqz.houseanalysis.utils.FileUtils;
 import com.wqz.houseanalysis.utils.ListUtils;
 import com.wqz.houseanalysis.utils.StatusUtils;
@@ -32,32 +35,29 @@ import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import okhttp3.Call;
 
-public class TimeAndTransferActivity extends BaseImmersiveActivity
+public class FreeDrawActivity extends BaseImmersiveActivity
 {
     AMap aMap;
-    Marker marker;
-    private LatLng startPoint;
-    private int time;
-    private int transferNum;
-
     DownloadDialog downloadDialog;
+    List<LatLng> pointList;
 
-    @BindView(R.id.time_and_transfer_num_map)
+    @BindView(R.id.free_draw_map)
     MapView mapView;
-    @BindView(R.id.tv_time_and_transfer_num_hint)
+    @BindView(R.id.tv_hint)
     TextView tvHint;
 
     @Override
     protected int initLayoutId()
     {
-        return R.layout.activity_time_and_tranfer;
+        return R.layout.activity_free_draw;
     }
 
     @Override
@@ -66,11 +66,13 @@ public class TimeAndTransferActivity extends BaseImmersiveActivity
         super.onInitLogic(savedInstanceState);
         onMapInit(savedInstanceState);
 
-        downloadDialog = new DownloadDialog(TimeAndTransferActivity.this);
+        downloadDialog = new DownloadDialog(FreeDrawActivity.this);
     }
 
     private void onMapInit(Bundle savedInstanceState)
     {
+        pointList = new ArrayList<>();
+
         mapView.onCreate(savedInstanceState);
 
         if (aMap == null)
@@ -79,7 +81,6 @@ public class TimeAndTransferActivity extends BaseImmersiveActivity
         aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
         aMap.moveCamera(CameraUpdateFactory.newCameraPosition(
                 BaseApplication.getInstances().getCurrentCamera()));
-
         aMap.getUiSettings().setZoomControlsEnabled(false);
 
         aMap.setOnMapClickListener(new AMap.OnMapClickListener()
@@ -87,65 +88,49 @@ public class TimeAndTransferActivity extends BaseImmersiveActivity
             @Override
             public void onMapClick(LatLng latLng)
             {
-                GetTimeDialog getTimeDialog = new GetTimeDialog(TimeAndTransferActivity.this);
-                getTimeDialog.show();
-                getTimeDialog.setStatusListener(timeStatusListener);
-
-                if(marker != null) marker.destroy();
-                marker = aMap.addMarker(new MarkerOptions().position(latLng).icon(
-                        BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                                .decodeResource(getResources(),R.mipmap.self_loc))));
-                startPoint = latLng;
-                tvHint.setText("选择完毕");
+                pointList.add(latLng);
+                onDrawPolygon();
             }
         });
     }
 
-    GetTimeDialog.StatusListener timeStatusListener = new GetTimeDialog.StatusListener()
+    private void onDrawPolygon()
     {
-        @Override
-        public void onDimiss()
-        {
-            tvHint.setText("给你一个重新选择起点的机会=。=");
-        }
+        aMap.clear();
 
-        @Override
-        public void onConfirm(Integer mins)
+        if(pointList.size() >= 3)
         {
-            time = mins;
-            GetTransferNumDialog getTransferDialog = new GetTransferNumDialog(TimeAndTransferActivity.this);
-            getTransferDialog.show();
-            getTransferDialog.setStatusListener(transferNumStatusListener);
+            PolygonOptions polygonOptions = new PolygonOptions();
+            polygonOptions.addAll(pointList);
+            polygonOptions
+                    .strokeWidth(5)
+                    .strokeColor(Color.parseColor("#03a0e2"))
+                    .fillColor(Color.parseColor("#8803a0e2"));
+            aMap.addPolygon(polygonOptions);
         }
-    };
-
-    GetTransferNumDialog.StatusListener transferNumStatusListener = new GetTransferNumDialog.StatusListener()
-    {
-        @Override
-        public void onDimiss()
+        for(LatLng latLng : pointList)
         {
-            tvHint.setText("给你一个重新选择起点的机会=。=");
+            aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                    BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                            .decodeResource(getResources(),R.mipmap.point_style)))
+                    .anchor(0.5f, 0.5f));
         }
-
-        @Override
-        public void onConfirm(Integer transferNum)
-        {
-            TimeAndTransferActivity.this.transferNum = transferNum;
-            loadData();
-        }
-    };
+    }
 
     private void loadData()
     {
+        List<ToBackEndPointBean> toEndPointList = new ArrayList<>();
+        for(LatLng latLng : pointList)
+        {
+            toEndPointList.add(new ToBackEndPointBean(latLng.longitude, latLng.latitude));
+        }
+
         downloadDialog.show();
 
         OkHttpUtils
-                .get()
-                .url(UrlUtils.BUS_TIME_AND_TRANSFER_URL)
-                .addParams("mins", time + "")
-                .addParams("transferNum", transferNum + "")
-                .addParams("originLon", startPoint.longitude + "")
-                .addParams("originLat", startPoint.latitude + "")
+                .post()
+                .url(UrlUtils.FREE_DRAW_URL)
+                .addParams("jsonPointList", new Gson().toJson(toEndPointList))
                 .build()
                 .execute(new StringCallback()
                 {
@@ -165,19 +150,38 @@ public class TimeAndTransferActivity extends BaseImmersiveActivity
                         addressActiveStatus.addressList = addressBeans;
                         addressActiveStatus.active = true;
                         addressActiveStatus.analysisDate = new Date();
-                        addressActiveStatus.title = "时间换乘限制";
-                        addressActiveStatus.param = time + "分钟 | " + transferNum + "次";
+                        addressActiveStatus.title = "自由绘制限制";
 
                         List<AddressActiveStatus> statusList = StatusUtils.getStatusList();
                         ListUtils.setAllNodeStatusUnactive(statusList);
                         statusList.add(addressActiveStatus);
                         StatusUtils.setStatusList(statusList);
 
-                        startActivity(new Intent(TimeAndTransferActivity.this, MainActivity.class));
+                        startActivity(new Intent(FreeDrawActivity.this, MainActivity.class));
                         downloadDialog.dismiss();
-                        TimeAndTransferActivity.this.finish();
+                        FreeDrawActivity.this.finish();
                     }
                 });
+    }
+
+    @OnClick(R.id.iv_back)
+    public void onBack()
+    {
+        pointList.remove(pointList.size() - 1);
+        onDrawPolygon();
+    }
+
+    @OnClick(R.id.iv_clear)
+    public void onClear()
+    {
+        pointList.clear();
+        onDrawPolygon();
+    }
+
+    @OnClick(R.id.iv_confirm)
+    public void onConfirm()
+    {
+        loadData();
     }
 
     @Override
