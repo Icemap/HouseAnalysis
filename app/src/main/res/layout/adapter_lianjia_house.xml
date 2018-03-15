@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:id="@+id/card_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardBackgroundColor="@color/colorWhite"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/house_lianjia_image"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/house_lianjia_title"
+                android:shadowColor="#44000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:id="@+id/house_lianjia_address"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_below="@+id/house_lianjia_title"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_room_num"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_area"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_room_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_face_to"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_decoration"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_face_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_has_lift"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_decoration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_flood"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_has_lift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_buildtime"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_flood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_structure"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_buildtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_district"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_structure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_tax"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_district"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorMainTabBlueTrans"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_total_price"
+                android:layout_below="@+id/house_lianjia_title"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="20sp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorOrange"
+                />
+
+            <TextView
+                android:id="@+id/house_lianjia_unit_price"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="14sp"
+                android:layout_below="@+id/house_lianjia_total_price"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorOrange"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

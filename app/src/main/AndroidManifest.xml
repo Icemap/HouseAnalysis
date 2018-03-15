@@ -1,65 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.wqz.houseanalysis">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.wqz.houseanalysis">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label,android:icon,android:roundIcon">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="1ea43ca46a71f7502c15cb8602a11c17"/>
+            android:value="dba9e6f6093f9007bbc553f6eba9f071" />
         <!-- HOME:dba9e6f6093f9007bbc553f6eba9f071 -->
         <!-- COMPANY:1ea43ca46a71f7502c15cb8602a11c17 -->
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.MainActivity" />
 
-        <service android:name="com.amap.api.location.APSService"/>
+        <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".activity.ListStatusActivity"/>
-        <activity android:name=".activity.sub.BusTimeActivity"/>
-        <activity android:name=".activity.sub.TransferNumActivity">
-        </activity>
-        <activity android:name=".activity.sub.TimeAndTransferActivity">
-        </activity>
-        <activity android:name=".activity.sub.LengthActivity">
-        </activity>
-        <activity android:name=".activity.sub.FreeDrawActivity">
-        </activity>
-        <activity android:name=".activity.sub.RectActivity">
-        </activity>
-        <activity android:name=".activity.ListAddressActivity">
-        </activity>
+        <activity android:name=".activity.ListStatusActivity" />
+        <activity android:name=".activity.sub.BusTimeActivity" />
+        <activity android:name=".activity.sub.TransferNumActivity" />
+        <activity android:name=".activity.sub.TimeAndTransferActivity" />
+        <activity android:name=".activity.sub.LengthActivity" />
+        <activity android:name=".activity.sub.FreeDrawActivity" />
+        <activity android:name=".activity.sub.RectActivity" />
+        <activity android:name=".activity.ListAddressActivity" />
+        <activity android:name=".activity.ListLianJiaHouseActivity" />
+        <activity android:name=".activity.WebActivity" />
+        <activity android:name=".activity.AnJuKeActivity"></activity>
     </application>
 
 </manifest>

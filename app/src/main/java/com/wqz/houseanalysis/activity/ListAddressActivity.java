@@ -1,5 +1,6 @@
 package com.wqz.houseanalysis.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,9 @@ import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.adapter.AddressAdapter;
 import com.wqz.houseanalysis.adapter.StatusAdapter;
 import com.wqz.houseanalysis.base.BaseActivity;
+import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.bean.AddressActiveStatus;
+import com.wqz.houseanalysis.bean.AddressBean;
 import com.wqz.houseanalysis.utils.ListUtils;
 import com.wqz.houseanalysis.utils.StatusUtils;
 
@@ -21,7 +24,6 @@ import butterknife.BindView;
 
 public class ListAddressActivity extends BaseActivity
 {
-
     @BindView(R.id.rv_address_list)
     RecyclerView rvAddressList;
 
@@ -52,11 +54,26 @@ public class ListAddressActivity extends BaseActivity
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position)
             {
-
+                AddressBean addressBean = StatusUtils.getActiveStatus().addressList.get(position);
+                BaseApplication.getInstances().setCurrentAddress(addressBean);
+                jumpToActivity(addressBean);
             }
         });
         addressAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) rvAddressList.getParent());
         rvAddressList.setAdapter(addressAdapter);
         addressAdapter.setNewData(StatusUtils.getActiveStatus().addressList);
+    }
+
+    private void jumpToActivity(AddressBean addressBean)
+    {
+        switch (addressBean.getSrc())
+        {
+            case "AnJuKe":
+                startActivity(new Intent(ListAddressActivity.this, AnJuKeActivity.class));
+                break;
+            case "LianJia":
+                startActivity(new Intent(ListAddressActivity.this, ListLianJiaHouseActivity.class));
+                break;
+        }
     }
 }

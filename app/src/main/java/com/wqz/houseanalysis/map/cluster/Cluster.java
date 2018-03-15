@@ -3,6 +3,7 @@ package com.wqz.houseanalysis.map.cluster;
 
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
+import com.wqz.houseanalysis.bean.AddressBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +15,17 @@ import java.util.List;
 public class Cluster
 {
     private LatLng mLatLng;
-    private List<ClusterItem> mClusterItems;
+    private List<AddressBean> mClusterItems;
     private Marker mMarker;
 
 
     Cluster( LatLng latLng) {
 
         mLatLng = latLng;
-        mClusterItems = new ArrayList<ClusterItem>();
+        mClusterItems = new ArrayList<AddressBean>();
     }
 
-    void addClusterItem(ClusterItem clusterItem) {
+    void addClusterItem(AddressBean clusterItem) {
         mClusterItems.add(clusterItem);
     }
 
@@ -46,7 +47,7 @@ public class Cluster
         return mMarker;
     }
 
-    List<ClusterItem> getClusterItems() {
+    List<AddressBean> getClusterItems() {
         return mClusterItems;
     }
 }

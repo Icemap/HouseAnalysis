@@ -2,6 +2,7 @@ package com.wqz.houseanalysis.map.cluster;
 
 
 import com.amap.api.maps.model.Marker;
+import com.wqz.houseanalysis.bean.AddressBean;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface ClusterClickListener{
      * @param clusterItems
      *            聚合点所包含的元素
      */
-    public void onClick(Marker marker, List<ClusterItem> clusterItems);
+    public void onClick(Marker marker, List<AddressBean> clusterItems);
 }

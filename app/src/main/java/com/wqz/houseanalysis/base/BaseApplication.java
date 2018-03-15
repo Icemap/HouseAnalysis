@@ -25,6 +25,8 @@ public class BaseApplication extends Application
     public static BaseApplication instances;
     private AMapLocationClient mLocationClient;
     private CameraPosition currentCamera;
+    private AddressBean currentAddress;
+    private String currentUrl;
 
     @Override
     public void onCreate()
@@ -68,5 +70,25 @@ public class BaseApplication extends Application
     public void setCurrentCamera(CameraPosition currentCamera)
     {
         this.currentCamera = currentCamera;
+    }
+
+    public AddressBean getCurrentAddress()
+    {
+        return currentAddress;
+    }
+
+    public void setCurrentAddress(AddressBean currentAddress)
+    {
+        this.currentAddress = currentAddress;
+    }
+
+    public String getCurrentUrl()
+    {
+        return currentUrl;
+    }
+
+    public void setCurrentUrl(String currentUrl)
+    {
+        this.currentUrl = currentUrl;
     }
 }

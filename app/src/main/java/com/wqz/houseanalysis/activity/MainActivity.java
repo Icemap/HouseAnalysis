@@ -3,15 +3,16 @@ package com.wqz.houseanalysis.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.activity.sub.BusTimeActivity;
 import com.wqz.houseanalysis.activity.sub.FreeDrawActivity;
@@ -19,19 +20,16 @@ import com.wqz.houseanalysis.activity.sub.LengthActivity;
 import com.wqz.houseanalysis.activity.sub.RectActivity;
 import com.wqz.houseanalysis.activity.sub.TimeAndTransferActivity;
 import com.wqz.houseanalysis.activity.sub.TransferNumActivity;
-import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.base.BaseImmersiveActivity;
 import com.wqz.houseanalysis.bean.AddressActiveStatus;
 import com.wqz.houseanalysis.bean.AddressBean;
+import com.wqz.houseanalysis.map.cluster.ClusterClickListener;
 import com.wqz.houseanalysis.map.cluster.ClusterOverlay;
-import com.wqz.houseanalysis.utils.FileUtils;
 import com.wqz.houseanalysis.utils.ScreenUtils;
+import com.wqz.houseanalysis.utils.SnackUtils;
 import com.wqz.houseanalysis.utils.StatusUtils;
-import com.wqz.houseanalysis.utils.UrlUtils;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +103,30 @@ public class MainActivity extends BaseImmersiveActivity
         clusterOverlay = new ClusterOverlay(aMap, activeStatus,
                 ScreenUtils.dp2px(getApplicationContext(), 50),
                 getApplicationContext());
+        clusterOverlay.setOnClusterClickListener(listener);
     }
+
+    ClusterClickListener listener = new ClusterClickListener()
+    {
+        @Override
+        public void onClick(Marker marker, List<AddressBean> clusterItems)
+        {
+            if(clusterItems != null && clusterItems.size() == 1)
+            {
+                final AddressBean addressBean = clusterItems.get(0);
+                SnackUtils.makeSnackBar(clMainRoot, "打开" + addressBean.getName()
+                                + "这个小区吗？", Snackbar.LENGTH_INDEFINITE,
+                        famMain, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        BaseApplication.getInstances().setCurrentAddress(addressBean);
+                        jumpToActivity(addressBean);
+                    }
+                }, "确认");
+            }
+        }
+    };
 
     @Override
     protected void onDestroy()
@@ -190,5 +211,18 @@ public class MainActivity extends BaseImmersiveActivity
     {
         BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
         startActivity(new Intent(this, ListStatusActivity.class));
+    }
+
+    private void jumpToActivity(AddressBean addressBean)
+    {
+        switch (addressBean.getSrc())
+        {
+            case "AnJuKe":
+                startActivity(new Intent(MainActivity.this, AnJuKeActivity.class));
+                break;
+            case "LianJia":
+                startActivity(new Intent(MainActivity.this, ListLianJiaHouseActivity.class));
+                break;
+        }
     }
 }

@@ -6,5 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wqz.houseanalysis.activity.SplashActivity"
-    android:background="@mipmap/splash_bg">
+    android:background="@color/colorMainTabBlue">
+
+    <View
+        android:id="@+id/v_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@mipmap/icon"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="40sp"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@+id/v_icon"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:textSize="10dp"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="Copyright By 老王 | 老王房价 | v0.0.1"/>
 </RelativeLayout>
