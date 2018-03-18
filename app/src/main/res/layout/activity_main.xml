@@ -29,58 +29,13 @@
         fab:fab_labelsPosition="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorMainTabBlue"
-            fab:fab_size="mini"
-            fab:fab_icon="@drawable/ic_time_24dp"
-            fab:fab_title="公交时间限制"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_transfer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorMainTabBlue"
-            fab:fab_size="mini"
-            fab:fab_icon="@drawable/ic_transfer_24dp"
-            fab:fab_title="换乘次数限制"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_bus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorMainTabBlue"
-            fab:fab_size="mini"
-            fab:fab_icon="@drawable/ic_bus_24dp"
-            fab:fab_title="时间换乘限制"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorMainTabBlue"
-            fab:fab_size="mini"
-            fab:fab_icon="@drawable/ic_length_24dp"
-            fab:fab_title="直线距离限制"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_draw"
+            android:id="@+id/fab_param"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorMainTabBlue"
             fab:fab_size="mini"
             fab:fab_icon="@drawable/ic_polygon_24dp"
-            fab:fab_title="自由绘制限制"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_rect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorMainTabBlue"
-            fab:fab_size="mini"
-            fab:fab_icon="@drawable/ic_rect_24dp"
-            fab:fab_title="矩形绘制限制"/>
+            fab:fab_title="小区区位分析"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_address_list"

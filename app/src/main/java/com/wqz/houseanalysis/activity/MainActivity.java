@@ -47,8 +47,6 @@ public class MainActivity extends BaseImmersiveActivity
     CoordinatorLayout clMainRoot;
     @BindView(R.id.fab_menu)
     FloatingActionsMenu famMain;
-    @BindView(R.id.fab_time)
-    FloatingActionButton fabTime;
 
     @Override
     protected int initLayoutId()
@@ -156,47 +154,11 @@ public class MainActivity extends BaseImmersiveActivity
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
-
-    @OnClick(R.id.fab_time)
-    public void onBusTimeClicked()
+    @OnClick(R.id.fab_param)
+    public void onParamClicked()
     {
         BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, BusTimeActivity.class));
-    }
-
-    @OnClick(R.id.fab_transfer)
-    public void onBusTransferNumClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, TransferNumActivity.class));
-    }
-
-    @OnClick(R.id.fab_bus)
-    public void onBusTimeAndTransferNumClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, TimeAndTransferActivity.class));
-    }
-
-    @OnClick(R.id.fab_length)
-    public void onLengthClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, LengthActivity.class));
-    }
-
-    @OnClick(R.id.fab_draw)
-    public void onFreeDrawClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, FreeDrawActivity.class));
-    }
-
-    @OnClick(R.id.fab_rect)
-    public void onRectDrawClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, RectActivity.class));
+        startActivity(new Intent(this, ParamActivity.class));
     }
 
     @OnClick(R.id.fab_address_list)

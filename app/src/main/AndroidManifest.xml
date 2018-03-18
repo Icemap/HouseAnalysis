@@ -58,7 +58,8 @@
         <activity android:name=".activity.ListAddressActivity" />
         <activity android:name=".activity.ListLianJiaHouseActivity" />
         <activity android:name=".activity.WebActivity" />
-        <activity android:name=".activity.AnJuKeActivity"></activity>
+        <activity android:name=".activity.AnJuKeActivity" />
+        <activity android:name=".activity.ParamActivity"></activity>
     </application>
 
 </manifest>
