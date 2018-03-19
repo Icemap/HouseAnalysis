@@ -3,10 +3,7 @@ package com.wqz.houseanalysis.activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +20,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.activity.sub.BusTimeActivity;
-import com.wqz.houseanalysis.activity.sub.LengthActivity;
-import com.wqz.houseanalysis.activity.sub.TransferNumActivity;
 import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.bean.AddressActiveStatus;
@@ -35,7 +30,6 @@ import com.wqz.houseanalysis.dialog.GetTimeDialog;
 import com.wqz.houseanalysis.dialog.GetTransferNumDialog;
 import com.wqz.houseanalysis.dialog.LengthDialog;
 import com.wqz.houseanalysis.utils.ListUtils;
-import com.wqz.houseanalysis.utils.SnackUtils;
 import com.wqz.houseanalysis.utils.StatusUtils;
 import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -53,7 +47,6 @@ import okhttp3.Call;
 
 public class ParamActivity extends BaseActivity
 {
-
     AMap aMap;
     Marker marker;
     LatLng sP, eP;
@@ -61,6 +54,7 @@ public class ParamActivity extends BaseActivity
     LatLng cP;
     Integer length;
     Integer transferNum;
+    Integer time;
 
     Map<String, String> paramMap;
     DownloadDialog downloadDialog;
@@ -70,6 +64,8 @@ public class ParamActivity extends BaseActivity
     MapView mapView;
     @BindView(R.id.tv_hint)
     TextView tvHint;
+    @BindView(R.id.tv_confirm)
+    TextView tvConfirm;
 
     public enum ProcessType
     {
@@ -154,6 +150,14 @@ public class ParamActivity extends BaseActivity
             case TRANSFER_NUM_LIMIT:
                 paramMap.put("transferNum", transferNum + "");
                 toNextStep();
+                GetTimeDialog getTimeDialog = new GetTimeDialog(ParamActivity.this);
+                getTimeDialog.show();
+                getTimeDialog.setStatusListener(timeStatusListener);
+
+                break;
+            case BUS_TIME_LIMIT:
+                paramMap.put("mins", time + "");
+                loadData();
                 break;
         }
     }
@@ -172,12 +176,10 @@ public class ParamActivity extends BaseActivity
                 tvHint.setText("分析中心点选择,为后方分析基础");
                 break;
             case BASE_CENTER_POINT:
+                if(cP == null)
+                    loadData();
                 currentProcess = ProcessType.LENGTH_LIMIT;
                 tvHint.setText("圆形限制");
-                if(cP == null)
-                {
-                    //TODO loadData
-                }
                 break;
             case LENGTH_LIMIT:
                 currentProcess = ProcessType.TRANSFER_NUM_LIMIT;
@@ -186,6 +188,7 @@ public class ParamActivity extends BaseActivity
             case TRANSFER_NUM_LIMIT:
                 currentProcess = ProcessType.BUS_TIME_LIMIT;
                 tvHint.setText("公交时间限制");
+                tvConfirm.setText("开始分析");
                 break;
         }
     }
@@ -324,6 +327,48 @@ public class ParamActivity extends BaseActivity
         return rectList;
     }
 
+    private void loadData()
+    {
+        downloadDialog.show();
+
+        OkHttpUtils
+                .post()
+                .url(UrlUtils.PARAM_URL)
+                .params(paramMap)
+                .build()
+                .execute(new StringCallback()
+                {
+                    @Override
+                    public void onError(Call call, Exception e, int id)
+                    {
+                        tvHint.setText("网络错误，再试一次吧");
+                        downloadDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id)
+                    {
+                        List<AddressBean> addressBeans = new Gson().fromJson(response,
+                                new TypeToken<List<AddressBean>>(){}.getType());
+                        AddressActiveStatus addressActiveStatus = new AddressActiveStatus();
+                        addressActiveStatus.addressList = addressBeans;
+                        addressActiveStatus.active = true;
+                        addressActiveStatus.analysisDate = new Date();
+                        addressActiveStatus.title = "自定义参数限制";
+                        addressActiveStatus.param = new Gson().toJson(paramMap);
+
+                        List<AddressActiveStatus> statusList = StatusUtils.getStatusList();
+                        ListUtils.setAllNodeStatusUnactive(statusList);
+                        statusList.add(addressActiveStatus);
+                        StatusUtils.setStatusList(statusList);
+
+                        startActivity(new Intent(ParamActivity.this, MainActivity.class));
+                        downloadDialog.dismiss();
+                        ParamActivity.this.finish();
+                    }
+                });
+    }
+
     @OnClick(R.id.iv_clear)
     public void onClear()
     {
@@ -418,6 +463,22 @@ public class ParamActivity extends BaseActivity
                     fillColor(Color.parseColor("#8803a0e2")).
                     strokeColor(Color.parseColor("#03a0e2")).
                     strokeWidth(5));
+        }
+    };
+
+    GetTimeDialog.StatusListener timeStatusListener = new GetTimeDialog.StatusListener()
+    {
+        @Override
+        public void onDimiss()
+        {
+            tvHint.setText("给你一个重新选择起点的机会=。=");
+        }
+
+        @Override
+        public void onConfirm(Integer mins)
+        {
+            time = mins;
+            loadData();
         }
     };
 

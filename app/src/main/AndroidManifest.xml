@@ -34,7 +34,7 @@
         tools:replace="android:label,android:icon,android:roundIcon">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="dba9e6f6093f9007bbc553f6eba9f071" />
+            android:value="1ea43ca46a71f7502c15cb8602a11c17" />
         <!-- HOME:dba9e6f6093f9007bbc553f6eba9f071 -->
         <!-- COMPANY:1ea43ca46a71f7502c15cb8602a11c17 -->
         <activity android:name=".activity.SplashActivity">

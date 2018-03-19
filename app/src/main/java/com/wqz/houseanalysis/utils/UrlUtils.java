@@ -16,6 +16,7 @@ public class UrlUtils
     public static String LENGTH_URL = BASE_URL + "/analysis/limit/length";
     public static String FREE_DRAW_URL = BASE_URL + "/analysis/limit/polygon";
     public static String RECT_URL = BASE_URL + "/analysis/limit/rect";
+    public static String PARAM_URL = BASE_URL + "/analysis/limit/param";
 
     public static String DATA_LIANJIA = BASE_URL + "/house/lianjia";
     public static String DATA_ANJUKE = BASE_URL + "/house/anjuke";
