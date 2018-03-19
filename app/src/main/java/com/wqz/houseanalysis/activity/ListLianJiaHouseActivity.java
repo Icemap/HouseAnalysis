@@ -24,6 +24,8 @@ import java.util.List;
 import butterknife.BindView;
 import okhttp3.Call;
 
+import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
+
 public class ListLianJiaHouseActivity extends BaseActivity
 {
     @BindView(R.id.rv_lianjia_house_list)
@@ -51,7 +53,7 @@ public class ListLianJiaHouseActivity extends BaseActivity
         rvLianJiaHouseList.setLayoutManager(new LinearLayoutManager(this));
 
         lianJiaHouseAdapter = new LianJiaHouseAdapter(null);
-        lianJiaHouseAdapter.openLoadAnimation();
+        lianJiaHouseAdapter.openLoadAnimation(SLIDEIN_RIGHT);
         lianJiaHouseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener()
         {
             @Override

@@ -29,6 +29,15 @@
         fab:fab_labelsPosition="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_param_house"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorMainTabBlue"
+            fab:fab_size="mini"
+            fab:fab_icon="@drawable/ic_business_white_24dp"
+            fab:fab_title="房源筛选列表"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_param"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

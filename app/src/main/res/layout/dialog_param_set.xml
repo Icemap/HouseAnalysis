@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/hints_bg"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/ll_total_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
+
+        <CheckBox
+            android:id="@+id/cb_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.Light.CompoundButton.CheckBox"/>
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总价(万):"
+            android:layout_toEndOf="@+id/cb_total_price"
+            android:textColor="@color/colorWhite"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"/>
+
+        <SeekBar
+            android:id="@+id/sb_total_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_total_price"
+            android:layout_centerVertical="true"
+            style="@android:style/Widget.Holo.SeekBar"
+            android:max="950"
+            android:padding="5dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_unit_price"
+        android:layout_below="@+id/ll_total_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
+
+        <CheckBox
+            android:id="@+id/cb_unit_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.Light.CompoundButton.CheckBox"/>
+
+        <TextView
+            android:id="@+id/tv_unit_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/cb_unit_price"
+            android:text="单价(元):"
+            android:textColor="@color/colorWhite"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"/>
+
+        <SeekBar
+            android:id="@+id/sb_unit_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_unit_price"
+            android:layout_centerVertical="true"
+            style="@android:style/Widget.Holo.SeekBar"
+            android:max="90000"
+            android:padding="5dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_room_num"
+        android:layout_below="@+id/ll_unit_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
+
+        <CheckBox
+            android:id="@+id/cb_room_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.Light.CompoundButton.CheckBox"/>
+
+        <TextView
+            android:id="@+id/tv_room_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/cb_room_num"
+            android:text="房型(X室):"
+            android:textColor="@color/colorWhite"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"/>
+
+        <SeekBar
+            android:id="@+id/sb_room_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_room_num"
+            style="@android:style/Widget.Holo.SeekBar"
+            android:layout_centerVertical="true"
+            android:max="5"
+            android:padding="5dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_build_time"
+        android:layout_below="@+id/ll_room_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
+
+        <CheckBox
+            android:id="@+id/cb_build_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.Light.CompoundButton.CheckBox"/>
+
+        <TextView
+            android:id="@+id/tv_build_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/cb_build_time"
+            android:text="建筑年份:"
+            android:textColor="@color/colorWhite"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"/>
+
+        <SeekBar
+            android:id="@+id/sb_build_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_build_time"
+            android:layout_centerVertical="true"
+            style="@android:style/Widget.Holo.SeekBar"
+            android:max="37"
+            android:padding="5dp"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_result"
+        android:layout_below="@+id/ll_build_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_result_total_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="总价:不限制"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_result_unit_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="单价:不限制"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_result_room_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="房型:不限制"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_result_build_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="建造时间:不限制"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_result"
+        android:text="确认"
+        android:padding="10dp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/confirm_bg"/>
+</RelativeLayout>

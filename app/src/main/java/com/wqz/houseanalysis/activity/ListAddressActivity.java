@@ -22,6 +22,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
+
 public class ListAddressActivity extends BaseActivity
 {
     @BindView(R.id.rv_address_list)
@@ -48,7 +50,7 @@ public class ListAddressActivity extends BaseActivity
         rvAddressList.setLayoutManager(new LinearLayoutManager(this));
 
         addressAdapter = new AddressAdapter(null);
-        addressAdapter.openLoadAnimation();
+        addressAdapter.openLoadAnimation(SLIDEIN_RIGHT);
         addressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener()
         {
             @Override

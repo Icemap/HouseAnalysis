@@ -19,7 +19,6 @@ import com.amap.api.maps.model.PolygonOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
-import com.wqz.houseanalysis.activity.sub.BusTimeActivity;
 import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.bean.AddressActiveStatus;
@@ -133,26 +132,16 @@ public class ParamActivity extends BaseActivity
                 toNextStep();
                 aMap.clear();
 
-                LengthDialog lengthDialog = new LengthDialog(ParamActivity.this);
-                lengthDialog.show();
-                lengthDialog.setStatusListener(statusListener);
-
                 break;
             case LENGTH_LIMIT:
-                paramMap.put("length", length + "");
+                paramMap.put("length", length + "000");
                 toNextStep();
                 aMap.clear();
-                GetTransferNumDialog getTransferDialog = new GetTransferNumDialog(ParamActivity.this);
-                getTransferDialog.show();
-                getTransferDialog.setStatusListener(transferNumStatusListener);
 
                 break;
             case TRANSFER_NUM_LIMIT:
                 paramMap.put("transferNum", transferNum + "");
                 toNextStep();
-                GetTimeDialog getTimeDialog = new GetTimeDialog(ParamActivity.this);
-                getTimeDialog.show();
-                getTimeDialog.setStatusListener(timeStatusListener);
 
                 break;
             case BUS_TIME_LIMIT:
@@ -180,15 +169,28 @@ public class ParamActivity extends BaseActivity
                     loadData();
                 currentProcess = ProcessType.LENGTH_LIMIT;
                 tvHint.setText("圆形限制");
+
+                LengthDialog lengthDialog = new LengthDialog(ParamActivity.this);
+                lengthDialog.show();
+                lengthDialog.setStatusListener(statusListener);
+
                 break;
             case LENGTH_LIMIT:
                 currentProcess = ProcessType.TRANSFER_NUM_LIMIT;
                 tvHint.setText("换乘次数限制");
+
+                GetTransferNumDialog getTransferDialog = new GetTransferNumDialog(ParamActivity.this);
+                getTransferDialog.show();
+                getTransferDialog.setStatusListener(transferNumStatusListener);
                 break;
             case TRANSFER_NUM_LIMIT:
                 currentProcess = ProcessType.BUS_TIME_LIMIT;
                 tvHint.setText("公交时间限制");
                 tvConfirm.setText("开始分析");
+
+                GetTimeDialog getTimeDialog = new GetTimeDialog(ParamActivity.this);
+                getTimeDialog.show();
+                getTimeDialog.setStatusListener(timeStatusListener);
                 break;
         }
     }
@@ -478,7 +480,7 @@ public class ParamActivity extends BaseActivity
         public void onConfirm(Integer mins)
         {
             time = mins;
-            loadData();
+            tvHint.setText("最大公交时间为:" + time + "分钟");
         }
     };
 

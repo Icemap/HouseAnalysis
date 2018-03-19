@@ -11,15 +11,8 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.wqz.houseanalysis.R;
-import com.wqz.houseanalysis.activity.sub.BusTimeActivity;
-import com.wqz.houseanalysis.activity.sub.FreeDrawActivity;
-import com.wqz.houseanalysis.activity.sub.LengthActivity;
-import com.wqz.houseanalysis.activity.sub.RectActivity;
-import com.wqz.houseanalysis.activity.sub.TimeAndTransferActivity;
-import com.wqz.houseanalysis.activity.sub.TransferNumActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.base.BaseImmersiveActivity;
 import com.wqz.houseanalysis.bean.AddressActiveStatus;
@@ -154,6 +147,14 @@ public class MainActivity extends BaseImmersiveActivity
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
+
+    @OnClick(R.id.fab_param_house)
+    public void onParamHouseClicked()
+    {
+        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
+        startActivity(new Intent(this, ParamHouseActivity.class));
+    }
+
     @OnClick(R.id.fab_param)
     public void onParamClicked()
     {

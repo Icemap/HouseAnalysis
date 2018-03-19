@@ -27,6 +27,8 @@ import java.util.List;
 import butterknife.BindView;
 import okhttp3.Call;
 
+import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
+
 public class AnJuKeActivity extends BaseActivity
 {
     @BindView(R.id.rv_anjuke_house_list)
@@ -54,7 +56,7 @@ public class AnJuKeActivity extends BaseActivity
         rvAnJuKeHouseList.setLayoutManager(new LinearLayoutManager(this));
 
         anJuKeHouseAdapter = new AnJuKeAdapter(null);
-        anJuKeHouseAdapter.openLoadAnimation();
+        anJuKeHouseAdapter.openLoadAnimation(SLIDEIN_RIGHT);
         anJuKeHouseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener()
         {
             @Override

@@ -29,10 +29,12 @@ public class StatusAdapter extends BaseQuickAdapter<AddressActiveStatus, BaseVie
     {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+        if(item == null) return;
+
         helper.setText(R.id.status_title, item.title)
                 .setText(R.id.status_date, format.format(item.analysisDate))
                 .setText(R.id.status_param, "参数：" + item.param)
-                .setText(R.id.status_num, "存有数据：" + item.addressList.size())
+                .setText(R.id.status_num, "存有数据：" + (item.addressList == null ? 0 : item.addressList.size()))
                 .addOnClickListener(R.id.status_delete)
                 .setVisible(R.id.v_check_signed, item.active);
     }

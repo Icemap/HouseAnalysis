@@ -20,4 +20,5 @@ public class UrlUtils
 
     public static String DATA_LIANJIA = BASE_URL + "/house/lianjia";
     public static String DATA_ANJUKE = BASE_URL + "/house/anjuke";
+    public static String DATA_PARAM = BASE_URL + "/house/getData/byParam";
 }

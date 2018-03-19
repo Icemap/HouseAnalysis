@@ -1,6 +1,9 @@
 package com.wqz.houseanalysis.activity;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -9,6 +12,8 @@ import android.webkit.WebViewClient;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
+
+import java.net.URISyntaxException;
 
 import butterknife.BindView;
 
@@ -39,7 +44,39 @@ public class WebActivity extends BaseActivity
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url)
             {
-                view.loadUrl(url);
+                if (!shouldOverrideUrlLoadingByApp(view, url))
+                {
+                    view.loadUrl(url);
+                }
+                return true;
+            }
+
+            private boolean shouldOverrideUrlLoadingByApp(WebView view, String url)
+            {
+                if (url.startsWith("http") || url.startsWith("https") || url.startsWith("ftp")) {
+                    //不处理http, https, ftp的请求
+                    return false;
+                }
+                Intent intent;
+                try
+                {
+                    intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                }
+                catch (URISyntaxException e) {
+                    Log.e("[WebView]", "URISyntaxException: " + e.getLocalizedMessage());
+                    return false;
+                }
+                intent.setComponent(null);
+
+                try
+                {
+                    WebActivity.this.startActivity(intent);
+                }
+                catch (ActivityNotFoundException e)
+                {
+                    Log.e("[WebView]", "ActivityNotFoundException: " + e.getLocalizedMessage());
+                    return false;
+                }
                 return true;
             }
         });

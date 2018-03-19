@@ -42,7 +42,7 @@ public class LianJiaHouseBean
     private String structure;
     private String district;
     private String taxfree;
-    private int totalprice;
+    private double totalprice;
     private int unitprice;
 
     public int getId()
@@ -195,12 +195,12 @@ public class LianJiaHouseBean
         this.taxfree = taxfree;
     }
 
-    public int getTotalprice()
+    public double getTotalprice()
     {
         return totalprice;
     }
 
-    public void setTotalprice(int totalprice)
+    public void setTotalprice(double totalprice)
     {
         this.totalprice = totalprice;
     }
