@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.adapter.MutilHouseAdapter;
-import com.wqz.houseanalysis.adapter.StatusAdapter;
 import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.bean.AddressActiveStatus;
@@ -26,14 +24,12 @@ import com.wqz.houseanalysis.bean.MultiHouseItemType;
 import com.wqz.houseanalysis.bean.RequestHouseBean;
 import com.wqz.houseanalysis.dialog.DownloadDialog;
 import com.wqz.houseanalysis.dialog.ParamSetDialog;
-import com.wqz.houseanalysis.utils.ListUtils;
 import com.wqz.houseanalysis.utils.StatusUtils;
 import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +38,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
+import static com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN;
 
 public class ParamHouseActivity extends BaseActivity
 {
@@ -69,7 +65,7 @@ public class ParamHouseActivity extends BaseActivity
         rvParamHouse.setHasFixedSize(true);
         rvParamHouse.setLayoutManager(new LinearLayoutManager(this));
         mutilHouseAdapter = new MutilHouseAdapter(multiHouseBeanList);
-        mutilHouseAdapter.openLoadAnimation(SLIDEIN_RIGHT);
+        mutilHouseAdapter.openLoadAnimation(SCALEIN);
         mutilHouseAdapter.setEmptyView(R.layout.loading_net_view, (ViewGroup) rvParamHouse.getParent());
         rvParamHouse.setAdapter(mutilHouseAdapter);
         downloadDialog = new DownloadDialog(ParamHouseActivity.this);

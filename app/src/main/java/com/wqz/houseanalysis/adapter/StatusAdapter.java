@@ -1,9 +1,11 @@
 package com.wqz.houseanalysis.adapter;
 
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wqz.houseanalysis.R;
@@ -31,9 +33,21 @@ public class StatusAdapter extends BaseQuickAdapter<AddressActiveStatus, BaseVie
 
         if(item == null) return;
 
+        String[] strArray = item.param.split("@#");
+
+        SpannableBuilder builder = new SpannableBuilder(mContext);
+        for(int i = 0; i < strArray.length; i++)
+        {
+            builder.createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
+                    .append(strArray[i].split("__")[0]).append(": ")
+                    .clearStyle()
+                    .append(strArray[i].split("__")[1])
+                    .append("\n");
+        }
+
         helper.setText(R.id.status_title, item.title)
                 .setText(R.id.status_date, format.format(item.analysisDate))
-                .setText(R.id.status_param, "参数：" + item.param)
+                .setText(R.id.status_param, builder.build())
                 .setText(R.id.status_num, "存有数据：" + (item.addressList == null ? 0 : item.addressList.size()))
                 .addOnClickListener(R.id.status_delete)
                 .setVisible(R.id.v_check_signed, item.active);

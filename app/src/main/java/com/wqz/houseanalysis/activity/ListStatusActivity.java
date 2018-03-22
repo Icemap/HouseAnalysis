@@ -18,7 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
+import static com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN;
 
 public class ListStatusActivity extends BaseActivity
 {
@@ -46,7 +46,7 @@ public class ListStatusActivity extends BaseActivity
         rvAddressList.setLayoutManager(new LinearLayoutManager(this));
 
         mStatusAdapter = new StatusAdapter(null);
-        mStatusAdapter.openLoadAnimation(SLIDEIN_RIGHT);
+        mStatusAdapter.openLoadAnimation(SCALEIN);
         mStatusAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener()
         {
             @Override

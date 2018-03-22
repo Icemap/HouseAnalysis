@@ -24,7 +24,7 @@ public class SplashActivity extends BaseImmersiveActivity
             @Override
             public void run()
             {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, MenuActivity.class));
                 finish();
             }
         }, 2000);

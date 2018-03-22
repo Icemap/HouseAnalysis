@@ -38,8 +38,6 @@ public class MainActivity extends BaseImmersiveActivity
     MapView mapView;
     @BindView(R.id.cl_main_root)
     CoordinatorLayout clMainRoot;
-    @BindView(R.id.fab_menu)
-    FloatingActionsMenu famMain;
 
     @Override
     protected int initLayoutId()
@@ -53,11 +51,12 @@ public class MainActivity extends BaseImmersiveActivity
         super.onInitLogic(savedInstanceState);
         onMapInit(savedInstanceState);
     }
+
     private void onMapResume()
     {
         if (aMap == null)
             aMap = mapView.getMap();
-        aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
+        aMap.setMapType(AMap.MAP_TYPE_NORMAL);
 
         checkAddressExist();
 
@@ -105,16 +104,17 @@ public class MainActivity extends BaseImmersiveActivity
             if(clusterItems != null && clusterItems.size() == 1)
             {
                 final AddressBean addressBean = clusterItems.get(0);
-                SnackUtils.makeSnackBar(clMainRoot, "打开" + addressBean.getName()
-                                + "这个小区吗？", Snackbar.LENGTH_INDEFINITE,
-                        famMain, new View.OnClickListener() {
+                Snackbar.make(clMainRoot,"打开" + addressBean.getName()
+                        + "这个小区吗？",  Snackbar.LENGTH_INDEFINITE)
+                        .setAction("确认", new View.OnClickListener() {
                     @Override
                     public void onClick(View v)
                     {
                         BaseApplication.getInstances().setCurrentAddress(addressBean);
-                        jumpToActivity(addressBean);
+                        jumpToActivity(addressBean)
+                        ;
                     }
-                }, "确认");
+                }).show();
             }
         }
     };
@@ -146,34 +146,6 @@ public class MainActivity extends BaseImmersiveActivity
     {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
-    }
-
-    @OnClick(R.id.fab_param_house)
-    public void onParamHouseClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, ParamHouseActivity.class));
-    }
-
-    @OnClick(R.id.fab_param)
-    public void onParamClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, ParamActivity.class));
-    }
-
-    @OnClick(R.id.fab_address_list)
-    public void onAddressList()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, ListAddressActivity.class));
-    }
-
-    @OnClick(R.id.fab_setting)
-    public void onSettingClicked()
-    {
-        BaseApplication.getInstances().setCurrentCamera(aMap.getCameraPosition());
-        startActivity(new Intent(this, ListStatusActivity.class));
     }
 
     private void jumpToActivity(AddressBean addressBean)

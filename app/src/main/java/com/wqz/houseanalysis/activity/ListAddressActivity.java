@@ -10,19 +10,14 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.adapter.AddressAdapter;
-import com.wqz.houseanalysis.adapter.StatusAdapter;
 import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
-import com.wqz.houseanalysis.bean.AddressActiveStatus;
 import com.wqz.houseanalysis.bean.AddressBean;
-import com.wqz.houseanalysis.utils.ListUtils;
 import com.wqz.houseanalysis.utils.StatusUtils;
-
-import java.util.List;
 
 import butterknife.BindView;
 
-import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
+import static com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN;
 
 public class ListAddressActivity extends BaseActivity
 {
@@ -50,7 +45,7 @@ public class ListAddressActivity extends BaseActivity
         rvAddressList.setLayoutManager(new LinearLayoutManager(this));
 
         addressAdapter = new AddressAdapter(null);
-        addressAdapter.openLoadAnimation(SLIDEIN_RIGHT);
+        addressAdapter.openLoadAnimation(SCALEIN);
         addressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener()
         {
             @Override
@@ -63,6 +58,10 @@ public class ListAddressActivity extends BaseActivity
         });
         addressAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) rvAddressList.getParent());
         rvAddressList.setAdapter(addressAdapter);
+
+        if(StatusUtils.getActiveStatus() == null || StatusUtils.getActiveStatus().addressList == null)
+            return;
+
         addressAdapter.setNewData(StatusUtils.getActiveStatus().addressList);
     }
 

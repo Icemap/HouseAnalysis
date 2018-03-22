@@ -1,7 +1,6 @@
 package com.wqz.houseanalysis.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +12,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.adapter.AnJuKeAdapter;
-import com.wqz.houseanalysis.adapter.LianJiaHouseAdapter;
 import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.bean.AnJuKeHouseBean;
-import com.wqz.houseanalysis.bean.LianJiaHouseBean;
 import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -27,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import okhttp3.Call;
 
-import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
+import static com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN;
 
 public class AnJuKeActivity extends BaseActivity
 {
@@ -56,7 +53,7 @@ public class AnJuKeActivity extends BaseActivity
         rvAnJuKeHouseList.setLayoutManager(new LinearLayoutManager(this));
 
         anJuKeHouseAdapter = new AnJuKeAdapter(null);
-        anJuKeHouseAdapter.openLoadAnimation(SLIDEIN_RIGHT);
+        anJuKeHouseAdapter.openLoadAnimation(SCALEIN);
         anJuKeHouseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener()
         {
             @Override

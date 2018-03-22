@@ -1,12 +1,13 @@
 package com.wqz.houseanalysis.activity;
 
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
@@ -15,16 +16,17 @@ import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.PolygonOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wqz.houseanalysis.R;
 import com.wqz.houseanalysis.base.BaseActivity;
-import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.bean.AddressActiveStatus;
 import com.wqz.houseanalysis.bean.AddressBean;
 import com.wqz.houseanalysis.bean.ToBackEndPointBean;
 import com.wqz.houseanalysis.dialog.DownloadDialog;
+import com.wqz.houseanalysis.dialog.GetAnalysisNameDialog;
 import com.wqz.houseanalysis.dialog.GetTimeDialog;
 import com.wqz.houseanalysis.dialog.GetTransferNumDialog;
 import com.wqz.houseanalysis.dialog.LengthDialog;
@@ -54,6 +56,7 @@ public class ParamActivity extends BaseActivity
     Integer length;
     Integer transferNum;
     Integer time;
+    String name;
 
     Map<String, String> paramMap;
     DownloadDialog downloadDialog;
@@ -73,7 +76,8 @@ public class ParamActivity extends BaseActivity
         BASE_CENTER_POINT,
         LENGTH_LIMIT,
         TRANSFER_NUM_LIMIT,
-        BUS_TIME_LIMIT
+        BUS_TIME_LIMIT,
+        ANALYSIS_NAME
     }
 
     @Override
@@ -146,6 +150,9 @@ public class ParamActivity extends BaseActivity
                 break;
             case BUS_TIME_LIMIT:
                 paramMap.put("mins", time + "");
+                toNextStep();
+                break;
+            case ANALYSIS_NAME:
                 loadData();
                 break;
         }
@@ -186,11 +193,19 @@ public class ParamActivity extends BaseActivity
             case TRANSFER_NUM_LIMIT:
                 currentProcess = ProcessType.BUS_TIME_LIMIT;
                 tvHint.setText("公交时间限制");
-                tvConfirm.setText("开始分析");
 
                 GetTimeDialog getTimeDialog = new GetTimeDialog(ParamActivity.this);
                 getTimeDialog.show();
                 getTimeDialog.setStatusListener(timeStatusListener);
+                break;
+            case BUS_TIME_LIMIT:
+                currentProcess = ProcessType.ANALYSIS_NAME;
+                tvConfirm.setText("开始分析");
+                tvHint.setText("分析名称设置");
+
+                GetAnalysisNameDialog getNameDialog = new GetAnalysisNameDialog(ParamActivity.this);
+                getNameDialog.show();
+                getNameDialog.setStatusListener(nameListener);
                 break;
         }
     }
@@ -226,11 +241,17 @@ public class ParamActivity extends BaseActivity
         if (aMap == null)
             aMap = mapView.getMap();
 
-        aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
-        aMap.moveCamera(CameraUpdateFactory.newCameraPosition(
-                BaseApplication.getInstances().getCurrentCamera()));
-
+        aMap.setMapType(AMap.MAP_TYPE_NORMAL);
         aMap.getUiSettings().setZoomControlsEnabled(false);
+
+        MyLocationStyle myLocationStyle;
+        myLocationStyle = new MyLocationStyle();
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
+        myLocationStyle.showMyLocation(true);
+        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+        aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
+        aMap.setMyLocationEnabled(true);
+        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
 
         aMap.setOnMapClickListener(new AMap.OnMapClickListener()
         {
@@ -356,19 +377,68 @@ public class ParamActivity extends BaseActivity
                         addressActiveStatus.addressList = addressBeans;
                         addressActiveStatus.active = true;
                         addressActiveStatus.analysisDate = new Date();
-                        addressActiveStatus.title = "自定义参数限制";
-                        addressActiveStatus.param = new Gson().toJson(paramMap);
+                        addressActiveStatus.title = name;
+                        addressActiveStatus.param = param2Str();
 
                         List<AddressActiveStatus> statusList = StatusUtils.getStatusList();
                         ListUtils.setAllNodeStatusUnactive(statusList);
                         statusList.add(addressActiveStatus);
                         StatusUtils.setStatusList(statusList);
 
-                        startActivity(new Intent(ParamActivity.this, MainActivity.class));
                         downloadDialog.dismiss();
                         ParamActivity.this.finish();
                     }
                 });
+    }
+
+    private String param2Str()
+    {
+        StringBuilder sbParam = new StringBuilder();
+        if (paramMap.containsKey("eLonMin") && paramMap.containsKey("eLonMax") &&
+            paramMap.containsKey("eLatMin") && paramMap.containsKey("eLatMax"))
+        {
+            sbParam
+                    .append("矩形限制__[")
+                    .append(paramMap.get("eLonMin")).append(",")
+                    .append(paramMap.get("eLonMax")).append(",")
+                    .append(paramMap.get("eLatMin")).append(",")
+                    .append(paramMap.get("eLatMax")).append("]@#");
+        }
+
+        if(cP != null)
+        {
+            sbParam.append("中心点经纬度__(")
+                    .append(cP.longitude).append(",")
+                    .append(cP.latitude).append(")@#");
+        }
+
+        if(length != null)
+        {
+            sbParam.append("圆形限制__").append(length).append("000m半径@#");
+        }
+
+        if(transferNum != null)
+        {
+            sbParam.append("换乘次数__").append(transferNum).append("次@#");
+        }
+
+        if(time != null)
+        {
+            sbParam.append("公交时间__").append(time).append("分钟@#");
+        }
+
+        if(pointList != null && pointList.size() != 0)
+        {
+            sbParam.append("自由绘制__");
+            for(LatLng latLng : pointList)
+            {
+                sbParam.append("(").append(latLng.longitude)
+                       .append(",").append(latLng.latitude)
+                       .append(")");
+            }
+            sbParam.append("@#");
+        }
+        return sbParam.toString();
     }
 
     @OnClick(R.id.iv_clear)
@@ -398,7 +468,13 @@ public class ParamActivity extends BaseActivity
                 GetTransferNumDialog getTransferDialog = new GetTransferNumDialog(ParamActivity.this);
                 getTransferDialog.show();
                 getTransferDialog.setStatusListener(transferNumStatusListener);
+                break;
 
+            case ANALYSIS_NAME:
+                GetAnalysisNameDialog getAnalysisNameDialog = new GetAnalysisNameDialog(ParamActivity.this);
+                getAnalysisNameDialog.show();
+                getAnalysisNameDialog.setStatusListener(nameListener);
+                break;
         }
     }
 
@@ -427,6 +503,12 @@ public class ParamActivity extends BaseActivity
                 getTransferDialog.show();
                 getTransferDialog.setStatusListener(transferNumStatusListener);
                 break;
+
+            case ANALYSIS_NAME:
+                GetAnalysisNameDialog getAnalysisNameDialog = new GetAnalysisNameDialog(ParamActivity.this);
+                getAnalysisNameDialog.show();
+                getAnalysisNameDialog.setStatusListener(nameListener);
+                break;
         }
     }
 
@@ -435,7 +517,7 @@ public class ParamActivity extends BaseActivity
         @Override
         public void onDimiss()
         {
-            tvHint.setText("给你一个重新选择起点的机会=。=");
+            tvHint.setText("右下角回退再次打开弹窗");
         }
 
         @Override
@@ -451,6 +533,7 @@ public class ParamActivity extends BaseActivity
         @Override
         public void onDimiss()
         {
+            tvHint.setText("右下角回退再次打开弹窗");
         }
 
         @Override
@@ -468,12 +551,27 @@ public class ParamActivity extends BaseActivity
         }
     };
 
+    GetAnalysisNameDialog.StatusListener nameListener = new GetAnalysisNameDialog.StatusListener() {
+        @Override
+        public void onDimiss()
+        {
+            tvHint.setText("右下角回退再次打开弹窗");
+        }
+
+        @Override
+        public void onConfirm(String analysisName)
+        {
+            name = analysisName;
+            tvHint.setText("分析名称为:" + analysisName);
+        }
+    };
+
     GetTimeDialog.StatusListener timeStatusListener = new GetTimeDialog.StatusListener()
     {
         @Override
         public void onDimiss()
         {
-            tvHint.setText("给你一个重新选择起点的机会=。=");
+            tvHint.setText("右下角回退再次打开弹窗");
         }
 
         @Override
