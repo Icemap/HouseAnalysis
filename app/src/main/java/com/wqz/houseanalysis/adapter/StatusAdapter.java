@@ -38,6 +38,9 @@ public class StatusAdapter extends BaseQuickAdapter<AddressActiveStatus, BaseVie
         SpannableBuilder builder = new SpannableBuilder(mContext);
         for(int i = 0; i < strArray.length; i++)
         {
+            String[] strParamKeyValue = strArray[i].split("__");
+            if(strParamKeyValue.length < 2) continue;
+
             builder.createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                     .append(strArray[i].split("__")[0]).append(": ")
                     .clearStyle()

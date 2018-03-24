@@ -1,16 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/cl_main_root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wqz.houseanalysis.activity.MainActivity">
+    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto">
 
-    <com.amap.api.maps.MapView
-        android:id="@+id/main_map"
+    <RelativeLayout
+        android:id="@+id/rl_container_radio"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </com.amap.api.maps.MapView>
-
-</android.support.design.widget.CoordinatorLayout>
+        android:layout_height="wrap_content">
+        <info.hoang8f.android.segmented.SegmentedGroup
+            android:id="@+id/mSegmentedGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:layout_margin="5dp"
+            segmentedgroup:sc_border_width="1dp"
+            segmentedgroup:sc_checked_text_color="@color/colorWhite"
+            segmentedgroup:sc_corner_radius="10dp"
+            segmentedgroup:sc_tint_color="@color/colorMainTabBlue">
+            <RadioButton
+                android:id="@+id/radio_address_map"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="地图" />
+            <RadioButton
+                android:id="@+id/radio_list_map"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="列表" />
+        </info.hoang8f.android.segmented.SegmentedGroup>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_container_fragment"
+        android:layout_below="@+id/rl_container_radio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+</RelativeLayout>

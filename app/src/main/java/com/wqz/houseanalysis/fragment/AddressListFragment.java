@@ -1,4 +1,5 @@
-package com.wqz.houseanalysis.activity;
+package com.wqz.houseanalysis.fragment;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,17 +10,20 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wqz.houseanalysis.R;
+import com.wqz.houseanalysis.activity.AnJuKeActivity;
+import com.wqz.houseanalysis.activity.ListLianJiaHouseActivity;
 import com.wqz.houseanalysis.adapter.AddressAdapter;
-import com.wqz.houseanalysis.base.BaseActivity;
 import com.wqz.houseanalysis.base.BaseApplication;
+import com.wqz.houseanalysis.base.BaseFragment;
 import com.wqz.houseanalysis.bean.AddressBean;
+import com.wqz.houseanalysis.utils.SortUtils;
 import com.wqz.houseanalysis.utils.StatusUtils;
 
 import butterknife.BindView;
 
 import static com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN;
 
-public class ListAddressActivity extends BaseActivity
+public class AddressListFragment extends BaseFragment
 {
     @BindView(R.id.rv_address_list)
     RecyclerView rvAddressList;
@@ -29,11 +33,11 @@ public class ListAddressActivity extends BaseActivity
     @Override
     protected int initLayoutId()
     {
-        return R.layout.activity_list_address;
+        return R.layout.fragment_address_list;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onInitLogic(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         initAdapter();
@@ -42,7 +46,7 @@ public class ListAddressActivity extends BaseActivity
     private void initAdapter()
     {
         rvAddressList.setHasFixedSize(true);
-        rvAddressList.setLayoutManager(new LinearLayoutManager(this));
+        rvAddressList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         addressAdapter = new AddressAdapter(null);
         addressAdapter.openLoadAnimation(SCALEIN);
@@ -59,10 +63,7 @@ public class ListAddressActivity extends BaseActivity
         addressAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) rvAddressList.getParent());
         rvAddressList.setAdapter(addressAdapter);
 
-        if(StatusUtils.getActiveStatus() == null || StatusUtils.getActiveStatus().addressList == null)
-            return;
-
-        addressAdapter.setNewData(StatusUtils.getActiveStatus().addressList);
+        addressAdapter.setNewData(SortUtils.getSortedByAddress());
     }
 
     private void jumpToActivity(AddressBean addressBean)
@@ -70,10 +71,10 @@ public class ListAddressActivity extends BaseActivity
         switch (addressBean.getSrc())
         {
             case "AnJuKe":
-                startActivity(new Intent(ListAddressActivity.this, AnJuKeActivity.class));
+                startActivity(new Intent(getActivity(), AnJuKeActivity.class));
                 break;
             case "LianJia":
-                startActivity(new Intent(ListAddressActivity.this, ListLianJiaHouseActivity.class));
+                startActivity(new Intent(getActivity(), ListLianJiaHouseActivity.class));
                 break;
         }
     }

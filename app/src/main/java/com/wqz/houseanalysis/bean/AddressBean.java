@@ -1,6 +1,7 @@
 package com.wqz.houseanalysis.bean;
 
 import com.amap.api.maps.model.LatLng;
+import com.chad.library.adapter.base.entity.SectionEntity;
 import com.wqz.houseanalysis.map.cluster.ClusterItem;
 
 /**

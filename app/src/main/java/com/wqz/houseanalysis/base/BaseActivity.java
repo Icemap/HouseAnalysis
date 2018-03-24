@@ -1,6 +1,8 @@
 package com.wqz.houseanalysis.base;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import butterknife.ButterKnife;
@@ -27,5 +29,13 @@ abstract public class BaseActivity extends Activity
     public BaseApplication getBaseApplication()
     {
         return ((BaseApplication) getApplication());
+    }
+
+    public void setMainContainerFragment(BaseFragment fragment, int fragmentViewId)
+    {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.replace(fragmentViewId, fragment);
+        fragmentTransaction.commit();
     }
 }

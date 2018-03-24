@@ -1,6 +1,8 @@
 package com.wqz.houseanalysis.base;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,7 @@ public abstract class BaseFragment extends Fragment
     private View rootView;
 
     protected abstract int initLayoutId();
-    protected void onInitLogic() {}
-    public abstract Boolean isMarginLeft();
+    protected void onInitLogic(Bundle savedInstanceState) {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +37,7 @@ public abstract class BaseFragment extends Fragment
         {
             rootView = inflater.inflate(initLayoutId(), container, false);
             ButterKnife.bind(this, rootView);
-            onInitLogic();
+            onInitLogic(savedInstanceState);
         }
         return rootView;
     }

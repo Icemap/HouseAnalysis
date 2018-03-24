@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string-array name="list_titles">
         <item>小区区位分析</item>
-        <item>当前小区列表</item>
-        <item>当前小区地图</item>
+        <item>当前小区列表/地图</item>
         <item>房源筛选列表</item>
         <item>分析结果设置</item>
     </string-array>
 
     <string-array name="list_class">
         <item>com.wqz.houseanalysis.activity.ParamActivity</item>
-        <item>com.wqz.houseanalysis.activity.ListAddressActivity</item>
         <item>com.wqz.houseanalysis.activity.MainActivity</item>
         <item>com.wqz.houseanalysis.activity.ParamHouseActivity</item>
         <item>com.wqz.houseanalysis.activity.ListStatusActivity</item>
@@ -19,18 +16,15 @@
 
     <string-array name="list_des">
         <item>通过地理位置，自选位置或使用公交指数筛选合理小区</item>
-        <item>得到当前分析结果的小区列表</item>
-        <item>得到当前分析结果的小区分布地图</item>
+        <item>得到当前分析结果的小区列表或分布地图</item>
         <item>得到当前分析结果的小区中的房源，并可用房价、单价等限制方式筛选房源</item>
         <item>可设置历史的小区分析结果</item>
     </string-array>
 
     <array name="list_images">
         <item>@mipmap/starry_night</item>
-        <item>@mipmap/cafe_terrace</item>
         <item>@mipmap/starry_night_over_the_rhone</item>
         <item>@mipmap/sunflowers</item>
         <item>@mipmap/almond_blossoms</item>
     </array>
-
 </resources>

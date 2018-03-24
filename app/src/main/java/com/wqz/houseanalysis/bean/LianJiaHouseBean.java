@@ -1,12 +1,13 @@
 package com.wqz.houseanalysis.bean;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by 51667 on 2018/3/15.
  */
 
-public class LianJiaHouseBean
+public class LianJiaHouseBean implements Comparable
 {
-
     /**
      * id : 3
      * contentUrl : https://gz.lianjia.com/ershoufang/GZ0003561799.html
@@ -213,5 +214,11 @@ public class LianJiaHouseBean
     public void setUnitprice(int unitprice)
     {
         this.unitprice = unitprice;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o)
+    {
+        return ((int)(this.getTotalprice() - ((LianJiaHouseBean)o).getTotalprice()));
     }
 }

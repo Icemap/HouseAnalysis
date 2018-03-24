@@ -1,10 +1,12 @@
 package com.wqz.houseanalysis.bean;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by 51667 on 2018/3/15.
  */
 
-public class AnJuKeHouseBean
+public class AnJuKeHouseBean implements Comparable
 {
     /**
      * id : 444
@@ -164,5 +166,11 @@ public class AnJuKeHouseBean
     public void setGoodat(String goodat)
     {
         this.goodat = goodat;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o)
+    {
+        return ((int)(this.getTotalprice() - ((AnJuKeHouseBean)o).getTotalprice()));
     }
 }

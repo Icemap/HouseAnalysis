@@ -30,6 +30,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,9 @@ public class ParamHouseActivity extends BaseActivity
         downloadDialog = new DownloadDialog(ParamHouseActivity.this);
 
         paramMap = new HashMap<>();
-        paramMap.put("jsonAddressList",new Gson().toJson(getAddressList()));
+        AddressListBean addressListBean = getAddressList();
+        if(addressListBean != null)
+            paramMap.put("jsonAddressList",new Gson().toJson(addressListBean));
         getData();
     }
 
@@ -137,12 +140,17 @@ public class ParamHouseActivity extends BaseActivity
             bean.setAnJuKeHouseBean(anJuKeHouseBean);
             multiHouseBeanList.add(bean);
         }
+
+        Collections.sort(multiHouseBeanList);
     }
 
     private AddressListBean getAddressList()
     {
         AddressListBean addressListBean = new AddressListBean();
         AddressActiveStatus addressActiveStatus = StatusUtils.getActiveStatus();
+
+        if(addressActiveStatus == null || addressActiveStatus.addressList == null) return null;
+
         for (AddressBean addressBean : addressActiveStatus.addressList)
         {
             if(addressBean.getSrc().equals("AnJuKe"))

@@ -19,6 +19,7 @@ import com.wqz.houseanalysis.utils.UrlUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -88,6 +89,7 @@ public class AnJuKeActivity extends BaseActivity
                     {
                         houseBeanList = new Gson().fromJson(response,
                                 new TypeToken<List<AnJuKeHouseBean>>(){}.getType());
+                        Collections.sort(houseBeanList);
                         anJuKeHouseAdapter.setNewData(houseBeanList);
                     }
                 });

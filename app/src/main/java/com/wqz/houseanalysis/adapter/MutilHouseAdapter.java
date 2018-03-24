@@ -41,7 +41,7 @@ public class MutilHouseAdapter extends BaseMultiItemQuickAdapter<MultiHouseBean,
                     Picasso .with(BaseApplication.getInstances())
                             .load(item.getImgUrl())
                             .centerCrop()
-                            .resize(200, 100)
+                            .resize(300, 200)
                             .into((ImageView)helper.getView(R.id.house_lianjia_image));
 
                 helper.setText(R.id.house_lianjia_title, item.getTitle())
@@ -68,7 +68,7 @@ public class MutilHouseAdapter extends BaseMultiItemQuickAdapter<MultiHouseBean,
                     Picasso.with(BaseApplication.getInstances())
                             .load(itemAn.getImgurl())
                             .centerCrop()
-                            .resize(200, 100)
+                            .resize(300, 200)
                             .into((ImageView)helper.getView(R.id.house_anjuke_image));
 
                 helper  .setText(R.id.house_anjuke_title, itemAn.getTitle())

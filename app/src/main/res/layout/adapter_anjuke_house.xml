@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<RelativeLayout
     android:id="@+id/card_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="@dimen/dp_10"
-    android:layout_marginBottom="@dimen/dp_10"
-    android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/colorWhite"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardUseCompatPadding="true">
+    android:background="@drawable/adapter_white_mesh">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,6 +19,28 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             >
+
+            <RelativeLayout
+                android:id="@+id/rl_house_anjuke"
+                android:layout_below="@+id/house_anjuke_unit_price"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                >
+                <ImageView
+                    android:id="@+id/house_anjuke_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    />
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/anjuke_sign"/>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/house_anjuke_title"
@@ -44,9 +59,10 @@
             <TextView
                 android:id="@+id/house_anjuke_address"
                 android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/house_anjuke_title"
-                android:layout_toStartOf="@+id/house_anjuke_image"
+                android:layout_toStartOf="@+id/rl_house_anjuke"
                 android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +75,7 @@
                 android:layout_alignParentStart="true"
                 android:textSize="14sp"
                 android:layout_below="@+id/house_anjuke_address"
-                android:layout_toStartOf="@+id/house_anjuke_image"
+                android:layout_toStartOf="@+id/rl_house_anjuke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorMainTabBlueTrans"
@@ -71,7 +87,7 @@
                 android:layout_alignParentStart="true"
                 android:textSize="14sp"
                 android:layout_below="@+id/house_anjuke_room_num"
-                android:layout_toStartOf="@+id/house_anjuke_image"
+                android:layout_toStartOf="@+id/rl_house_anjuke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorMainTabBlueTrans"
@@ -83,7 +99,7 @@
                 android:layout_alignParentStart="true"
                 android:textSize="14sp"
                 android:layout_below="@+id/house_anjuke_area"
-                android:layout_toStartOf="@+id/house_anjuke_image"
+                android:layout_toStartOf="@+id/rl_house_anjuke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorMainTabBlueTrans"
@@ -95,7 +111,7 @@
                 android:layout_alignParentStart="true"
                 android:textSize="14sp"
                 android:layout_below="@+id/house_anjuke_flood"
-                android:layout_toStartOf="@+id/house_anjuke_image"
+                android:layout_toStartOf="@+id/rl_house_anjuke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorMainTabBlueTrans"
@@ -107,7 +123,7 @@
                 android:layout_alignParentStart="true"
                 android:textSize="14sp"
                 android:layout_below="@+id/house_anjuke_buildtime"
-                android:layout_toStartOf="@+id/house_anjuke_image"
+                android:layout_toStartOf="@+id/rl_house_anjuke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorMainTabBlueTrans"
@@ -119,7 +135,7 @@
                 android:layout_alignParentStart="true"
                 android:textSize="14sp"
                 android:layout_below="@+id/house_anjuke_district"
-                android:layout_toStartOf="@+id/house_anjuke_image"
+                android:layout_toStartOf="@+id/rl_house_anjuke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorMainTabBlueTrans"
@@ -129,11 +145,12 @@
                 android:id="@+id/house_anjuke_total_price"
                 android:layout_below="@+id/house_anjuke_title"
                 android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="10dp"
                 android:textSize="20sp"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorOrange"
+                android:textColor="@color/colorIOSRed"
                 />
 
             <TextView
@@ -147,15 +164,6 @@
                 android:textColor="@color/colorOrange"
                 />
 
-            <ImageView
-                android:id="@+id/house_anjuke_image"
-                android:layout_below="@+id/house_anjuke_unit_price"
-                android:layout_width="200dp"
-                android:layout_height="150dp"
-                android:scaleType="fitCenter"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                />
         </RelativeLayout>
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+</RelativeLayout>

@@ -34,5 +34,5 @@
         android:layout_margin="10dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:text="Copyright By 老王 | 老王房价 | v0.2.0"/>
+        android:text="Copyright By 老王 | 老王房价 | v0.3.0"/>
 </RelativeLayout>
