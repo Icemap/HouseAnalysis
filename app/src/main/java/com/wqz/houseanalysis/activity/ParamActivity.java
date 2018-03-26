@@ -490,6 +490,8 @@ public class ParamActivity extends BaseActivity
                 onDrawRect();
                 break;
             case FREE_DRAW_LIMIT:
+                if(pointList == null || pointList.size() == 0)
+                    return;
                 pointList.remove(pointList.size() - 1);
                 onDrawPolygon();
                 break;

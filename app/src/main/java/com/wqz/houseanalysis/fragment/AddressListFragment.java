@@ -16,8 +16,11 @@ import com.wqz.houseanalysis.adapter.AddressAdapter;
 import com.wqz.houseanalysis.base.BaseApplication;
 import com.wqz.houseanalysis.base.BaseFragment;
 import com.wqz.houseanalysis.bean.AddressBean;
+import com.wqz.houseanalysis.bean.AddressListItem;
 import com.wqz.houseanalysis.utils.SortUtils;
 import com.wqz.houseanalysis.utils.StatusUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -29,6 +32,7 @@ public class AddressListFragment extends BaseFragment
     RecyclerView rvAddressList;
 
     AddressAdapter addressAdapter;
+    List<AddressListItem> addressListItems;
 
     @Override
     protected int initLayoutId()
@@ -55,15 +59,18 @@ public class AddressListFragment extends BaseFragment
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position)
             {
-                AddressBean addressBean = StatusUtils.getActiveStatus().addressList.get(position);
-                BaseApplication.getInstances().setCurrentAddress(addressBean);
-                jumpToActivity(addressBean);
+                AddressListItem addressListItem = addressListItems.get(position);
+                if(addressListItem.isHeader)
+                    return;
+                BaseApplication.getInstances().setCurrentAddress(addressListItem.addressBean);
+                jumpToActivity(addressListItem.addressBean);
             }
         });
         addressAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) rvAddressList.getParent());
         rvAddressList.setAdapter(addressAdapter);
 
-        addressAdapter.setNewData(SortUtils.getSortedByAddress());
+        addressListItems = SortUtils.getSortedByAddress();
+        addressAdapter.setNewData(addressListItems);
     }
 
     private void jumpToActivity(AddressBean addressBean)
